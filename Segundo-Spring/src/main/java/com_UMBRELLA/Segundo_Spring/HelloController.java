@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
+import com_UMBRELLA.Segundo_Spring.Pessoa;
+import java.util.List;
 
 @RestController
 public class HelloController {
@@ -59,5 +61,24 @@ public class HelloController {
         return String.format("Resultado: Soma: %d | Subtração: %d | Multiplicação: %d | Divisçao: %s \n"
         , soma, subtracao, multiplicacao, divisao);
     }
+
+    @GetMapping("/Pessoa")
+    public Pessoa pessoa() {
+        return new Pessoa("Arthur", 18, "Desenvolvedor Java");
+    }
+
+    @GetMapping("/Pessoas")
+        public List<Pessoa> pessoas() {
+
+            return List.of(
+                new Pessoa("juju", 19, "Desenvolvedor"),
+                new Pessoa("ff", 20, "Designer"),
+                new Pessoa("ana", 18, "Analista")
+            );
+
+
+        }
+
+    }
     
-}
+
