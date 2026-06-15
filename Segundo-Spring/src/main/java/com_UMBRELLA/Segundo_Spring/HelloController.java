@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import com_UMBRELLA.Segundo_Spring.Pessoa;
 import java.util.List;
 
@@ -14,8 +16,8 @@ public class HelloController {
         return "Olá, Arthur!";
     }
 
-    @GetMapping("/saudacao")
-    public String saudacao() {
+    @GetMapping("/saudar")
+    public String saudar() {
         return "Bem-vindo ao Spring boot!";
     }
 
@@ -64,18 +66,31 @@ public class HelloController {
 
     @GetMapping("/Pessoa")
     public Pessoa pessoa() {
-        return new Pessoa("Arthur", 18, "Desenvolvedor Java");
+
+        return new Pessoa(128, "Arthur",18, "Desenvolvedor Java");
+
     }
 
     @GetMapping("/Pessoas")
         public List<Pessoa> pessoas() {
 
             return List.of(
-                new Pessoa("juju", 19, "Desenvolvedor"),
-                new Pessoa("ff", 20, "Designer"),
-                new Pessoa("ana", 18, "Analista")
+                new Pessoa(123, "juju", 19, "Desenvolvedor"),
+                new Pessoa(234, "ff", 20, "Designer"),
+                new Pessoa(546, "ana", 18, "Analista")
             );
 
+
+        }
+
+        @PostMapping("/cadastro00")
+        public String cadastro(@RequestBody Pessoa pessoa) {
+            return "Usuário: " + pessoa.getNome() + "cadastrado com sucesso!";
+        }
+
+        @PostMapping("/usuario00")
+        public Pessoa usuario(@RequestBody Pessoa pessoa) {
+            return pessoa;
 
         }
 
