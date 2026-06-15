@@ -67,7 +67,7 @@ public class HelloController {
     @GetMapping("/Pessoa")
     public Pessoa pessoa() {
 
-        return new Pessoa(128, "Arthur",18, "Desenvolvedor Java");
+        return new Pessoa("Arthur",18, "Desenvolvedor Java");
 
     }
 
@@ -75,9 +75,9 @@ public class HelloController {
         public List<Pessoa> pessoas() {
 
             return List.of(
-                new Pessoa(123, "juju", 19, "Desenvolvedor"),
-                new Pessoa(234, "ff", 20, "Designer"),
-                new Pessoa(546, "ana", 18, "Analista")
+                new Pessoa("juju", 19, "Desenvolvedor"),
+                new Pessoa("ff", 20, "Designer"),
+                new Pessoa("ana", 18, "Analista")
             );
 
 
