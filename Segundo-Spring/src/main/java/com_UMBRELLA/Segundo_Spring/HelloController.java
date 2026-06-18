@@ -64,10 +64,10 @@ public class HelloController {
         , soma, subtracao, multiplicacao, divisao);
     }
 
-    @GetMapping("/Pessoa")
+   /*  @GetMapping("/Pessoa")
     public Pessoa pessoa() {
 
-        return new Pessoa("Arthur",18, "Desenvolvedor Java");
+        return new Pessoa(8, "Arthur",18, "Desenvolvedor Java");
 
     }
 
@@ -75,13 +75,13 @@ public class HelloController {
         public List<Pessoa> pessoas() {
 
             return List.of(
-                new Pessoa("juju", 19, "Desenvolvedor"),
-                new Pessoa("ff", 20, "Designer"),
-                new Pessoa("ana", 18, "Analista")
+                new Pessoa(9, "juju", 19, "Desenvolvedor"),
+                new Pessoa(66, "ff", 20, "Designer"),
+                new Pessoa(67, "ana", 18, "Analista")
             );
 
 
-        }
+        }*/
 
         @PostMapping("/cadastro00")
         public String cadastro(@RequestBody Pessoa pessoa) {

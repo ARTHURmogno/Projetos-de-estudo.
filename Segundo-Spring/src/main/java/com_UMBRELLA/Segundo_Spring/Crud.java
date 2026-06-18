@@ -14,7 +14,8 @@ import com_UMBRELLA.Segundo_Spring.Pessoa;
 
 @RestController
 public class Crud {
-    public List<Pessoa> pessoas = new ArrayList<>(); 
+    private List<Pessoa> pessoas = new ArrayList<>(); 
+    private Long proximoId = 1L;
 
     @GetMapping("/lista")
     public List<Pessoa> lista() {
@@ -24,6 +25,9 @@ public class Crud {
 
     @PostMapping("/cadastrar")
     public Pessoa cadastrar(@RequestBody Pessoa pessoa) {
+
+        pessoa.setId(proximoId);
+        proximoId++;
 
         pessoas.add(pessoa);
 
@@ -35,17 +39,29 @@ public class Crud {
         return pessoa;
     }
 
-    @DeleteMapping("/deletar/{indice}")
-    public String deletar(@PathVariable int indice) {
+    @DeleteMapping("/deletar/{id}")
+    public Pessoa deletar(@PathVariable Long id) {
 
-        if (indice < 0 || indice >= pessoas.size()) {
-            return "Pessoa não encontrada. ";
+        Pessoa pessoaEncontrada = null;
+
+        for (Pessoa pessoa : pessoas) {
+            if (pessoa.getId().equals(id)) {
+                pessoaEncontrada = pessoa;
+                break;
+            }
         }
 
-        pessoas.remove(indice);
+        if (pessoaEncontrada != null) {
+            pessoas.remove(pessoaEncontrada);
+        }
 
-        return "Usuário deletado com sucesso.";
+        return pessoaEncontrada;
+
     }
+
+
+
+
 
 
     @GetMapping("/quantidade")
@@ -55,10 +71,16 @@ public class Crud {
 
     }
 
-    @GetMapping("/buscar/{indice}")
-    public Pessoa busca(@PathVariable int indice) {
+    @GetMapping("/buscar/{id}")
+    public Pessoa busca(@PathVariable Long id) {
 
-        return pessoas.get(indice);
+        for (Pessoa pessoa : pessoas) {
+            if (pessoa.getId().equals(id)) {
+                return pessoa;
+            }
+        }
+
+        return null;
 
     }
 
