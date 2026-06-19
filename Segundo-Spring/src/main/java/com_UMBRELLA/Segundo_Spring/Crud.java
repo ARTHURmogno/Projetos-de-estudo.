@@ -1,5 +1,6 @@
 package com_UMBRELLA.Segundo_Spring;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,13 +35,26 @@ public class Crud {
         return pessoa;
     }
 
-    @PutMapping("/atualizar")
-    public Pessoa atualizar(@RequestBody Pessoa pessoa) {
-        return pessoa;
+    @PutMapping("/atualizar/{id}")
+    public Pessoa atualizar(@PathVariable Long id, @RequestBody Pessoa pessoaAtualizada) {
+
+        for (Pessoa pessoa : pessoas) {
+            if (pessoa.getId().equals(id)) {
+            pessoa.setNome(pessoaAtualizada.getNome());
+            pessoa.setIdade(pessoaAtualizada.getIdade());
+            pessoa.setProfissao(pessoaAtualizada.getProfissao());
+
+            return pessoa;
+
+            }
+        }
+
+        return null;
+
     }
 
     @DeleteMapping("/deletar/{id}")
-    public Pessoa deletar(@PathVariable Long id) {
+    public ResponseEntity<Pessoa> deletar(@PathVariable Long id) {
 
         Pessoa pessoaEncontrada = null;
 
@@ -51,11 +65,13 @@ public class Crud {
             }
         }
 
-        if (pessoaEncontrada != null) {
-            pessoas.remove(pessoaEncontrada);
+        if (pessoaEncontrada == null) {
+            ResponseEntity.notFound().build();
         }
 
-        return pessoaEncontrada;
+         pessoas.remove(pessoaEncontrada);
+
+        return ResponseEntity.ok(pessoaEncontrada);
 
     }
 
@@ -72,15 +88,15 @@ public class Crud {
     }
 
     @GetMapping("/buscar/{id}")
-    public Pessoa busca(@PathVariable Long id) {
+    public ResponseEntity<Pessoa> busca(@PathVariable Long id) {
 
         for (Pessoa pessoa : pessoas) {
             if (pessoa.getId().equals(id)) {
-                return pessoa;
+                return ResponseEntity.ok(pessoa);
             }
         }
 
-        return null;
+        return ResponseEntity.notFound().build();
 
     }
 

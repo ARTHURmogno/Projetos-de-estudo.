@@ -31,6 +31,10 @@ public class Pessoa {
         return profissao;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
