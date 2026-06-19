@@ -25,31 +25,34 @@ public class Crud {
     }
 
     @PostMapping("/cadastrar")
-    public Pessoa cadastrar(@RequestBody Pessoa pessoa) {
+    public ResponseEntity<Pessoa> cadastrar(@RequestBody Pessoa pessoa) {
 
         pessoa.setId(proximoId);
         proximoId++;
 
         pessoas.add(pessoa);
-
-        return pessoa;
+        return ResponseEntity.ok(pessoa);
     }
 
     @PutMapping("/atualizar/{id}")
-    public Pessoa atualizar(@PathVariable Long id, @RequestBody Pessoa pessoaAtualizada) {
+    public ResponseEntity<Pessoa> atualizar(@PathVariable Long id, @RequestBody Pessoa pessoaAtualizada) {
+
 
         for (Pessoa pessoa : pessoas) {
             if (pessoa.getId().equals(id)) {
+                
             pessoa.setNome(pessoaAtualizada.getNome());
             pessoa.setIdade(pessoaAtualizada.getIdade());
             pessoa.setProfissao(pessoaAtualizada.getProfissao());
 
-            return pessoa;
+            return ResponseEntity.ok(pessoa);
 
             }
+
         }
 
-        return null;
+        return ResponseEntity.notFound().build();
+            
 
     }
 
