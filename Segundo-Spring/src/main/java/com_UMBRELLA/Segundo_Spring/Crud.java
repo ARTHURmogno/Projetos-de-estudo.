@@ -19,19 +19,18 @@ public class Crud {
     private Long proximoId = 1L;
 
     @GetMapping("/lista")
-    public List<Pessoa> lista() {
+    public ResponseEntity<List<Pessoa>> lista() {
 
-        return pessoas;
+        return ResponseEntity.ok(pessoas);
     }
 
     @PostMapping("/cadastrar")
     public ResponseEntity<Pessoa> cadastrar(@RequestBody Pessoa pessoa) {
 
-        pessoa.setId(proximoId);
-        proximoId++;
+        pessoa.setId(proximoId++);
 
         pessoas.add(pessoa);
-        return ResponseEntity.ok(pessoa);
+        return ResponseEntity.status(201).body(pessoa);
     }
 
     @PutMapping("/atualizar/{id}")
@@ -40,7 +39,7 @@ public class Crud {
 
         for (Pessoa pessoa : pessoas) {
             if (pessoa.getId().equals(id)) {
-                
+
             pessoa.setNome(pessoaAtualizada.getNome());
             pessoa.setIdade(pessoaAtualizada.getIdade());
             pessoa.setProfissao(pessoaAtualizada.getProfissao());
