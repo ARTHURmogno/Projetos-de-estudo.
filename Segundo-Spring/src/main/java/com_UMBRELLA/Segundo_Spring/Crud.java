@@ -9,71 +9,56 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.ArrayList;
 import com_UMBRELLA.Segundo_Spring.Pessoa;
 
 @RestController
 public class Crud {
-    private List<Pessoa> pessoas = new ArrayList<>(); 
-    private Long proximoId = 1L;
 
-    @GetMapping("/lista")
-    public ResponseEntity<List<Pessoa>> lista() {
-
-        return ResponseEntity.ok(pessoas);
-    }
+    @Autowired
+     private PessoaRepository repository;
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Pessoa> cadastrar(@RequestBody Pessoa pessoa) {
+    public Pessoa cadastrar(@RequestBody Pessoa pessoa) {
+         return repository.save(pessoa);
+    }
 
-        pessoa.setId(proximoId++);
+    @GetMapping("/lista")
+    public List<Pessoa> lista() {
 
-        pessoas.add(pessoa);
-        return ResponseEntity.status(201).body(pessoa);
+        return repository.findAll();
+
     }
 
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<Pessoa> atualizar(@PathVariable Long id, @RequestBody Pessoa pessoaAtualizada) {
 
+        return repository.findById(id)
+            .map(pessoa -> {
+                pessoa.setNome(pessoaAtualizada.getNome());
+                pessoa.setIdade(pessoaAtualizada.getIdade());
+                pessoa.setProfissao(pessoaAtualizada.getProfissao());
 
-        for (Pessoa pessoa : pessoas) {
-            if (pessoa.getId().equals(id)) {
+                repository.save(pessoa);
+                return ResponseEntity.ok(pessoa);
 
-            pessoa.setNome(pessoaAtualizada.getNome());
-            pessoa.setIdade(pessoaAtualizada.getIdade());
-            pessoa.setProfissao(pessoaAtualizada.getProfissao());
-
-            return ResponseEntity.ok(pessoa);
-
-            }
-
-        }
-
-        return ResponseEntity.notFound().build();
-            
+            })
+            .orElse(ResponseEntity.notFound().build());
 
     }
 
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<Pessoa> deletar(@PathVariable Long id) {
 
-        Pessoa pessoaEncontrada = null;
-
-        for (Pessoa pessoa : pessoas) {
-            if (pessoa.getId().equals(id)) {
-                pessoaEncontrada = pessoa;
-                break;
-            }
+        if (!repository.existsById(id)) {
+            return ResponseEntity.notFound().build();
         }
 
-        if (pessoaEncontrada == null) {
-            ResponseEntity.notFound().build();
-        }
+        repository.deleteById(id);
 
-         pessoas.remove(pessoaEncontrada);
-
-        return ResponseEntity.ok(pessoaEncontrada);
+        return ResponseEntity.noContent().build();
 
     }
 
@@ -85,20 +70,16 @@ public class Crud {
     @GetMapping("/quantidade")
     public String quantidade() {
 
-        return "Quantidade: " + pessoas.size();
+        return "Quantidade: " + repository.count();
 
     }
 
     @GetMapping("/buscar/{id}")
     public ResponseEntity<Pessoa> busca(@PathVariable Long id) {
 
-        for (Pessoa pessoa : pessoas) {
-            if (pessoa.getId().equals(id)) {
-                return ResponseEntity.ok(pessoa);
-            }
-        }
-
-        return ResponseEntity.notFound().build();
+        return repository.findById(id)
+               .map(ResponseEntity::ok)
+               .orElse(ResponseEntity.notFound().build());
 
     }
 
