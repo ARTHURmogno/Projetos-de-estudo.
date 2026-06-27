@@ -1,6 +1,7 @@
-package main.java.com.UMBRELLA.inforHub_API.model;
+package com.UMBRELLA.inforHub_API.model;
 
-public class Filme {
+
+public class Filme002 {
 
     private Long id;
     private String titulo;
@@ -9,20 +10,20 @@ public class Filme {
     private int duracao;
     private String ondeAssistir;
 
-    public Filme() {
+    public Filme002() {
 
     }
 
-    public Filme(Long id, String titulo, String sinopse, String genero, int duracao, String ondeAssistir) {
+    public Filme002(Long id, String titulo, String sinopse, String genero, int duracao, String ondeAssistir) {
         this.id = id;
         this.titulo = titulo;
         this.sinopse = sinopse;
         this.genero = genero;
         this.duracao = duracao;
         this.ondeAssistir = ondeAssistir;
+
     }
-    
-    //getters
+    // getters
 
     public Long getId() {
         return id;
@@ -48,7 +49,7 @@ public class Filme {
         return ondeAssistir;
     }
 
-      //setters
+    // setters
 
     public void setId(Long id) {
         this.id = id;
@@ -70,8 +71,9 @@ public class Filme {
         this.duracao = duracao;
     }
 
-    public void setOndeAssistir(String ondeAssistri) {
-        this.ondeAssistir = ondeAssistri;
+    public void setOndeAssistir(String ondeAssistir) {
+        this.ondeAssistir = ondeAssistir;
     }
+
     
 }
