@@ -1,6 +1,6 @@
 package com.UMBRELLA.inforHub_API.model;
 
-public class Series {
+public class Serie {
 
     private Long id;
     private String nome;
@@ -10,11 +10,11 @@ public class Series {
     private int episodios;
     private int lancamento;
 
-    public Series() {
+    public Serie() {
 
     }
 
-    public Series(Long id, String nome, String sinopse, Stirng genero, int temporada, int episodios, int lancamento) {
+    public Serie(Long id, String nome, String sinopse, Stirng genero, int temporada, int episodios, int lancamento) {
         this.id = id;
         this.nome = nome;
         this.sinopse = sinopse;
