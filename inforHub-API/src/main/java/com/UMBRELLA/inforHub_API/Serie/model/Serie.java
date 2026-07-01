@@ -8,13 +8,14 @@ public class Serie {
     private String genero;
     private int temporada;
     private int episodios;
-    private int lancamento;
+    private Stirng lancamento;
+    private String ondeAssistir;
 
     public Serie() {
 
     }
 
-    public Serie(Long id, String nome, String sinopse, Stirng genero, int temporada, int episodios, int lancamento) {
+    public Serie(Long id, String nome, String sinopse, Stirng genero, int temporada, int episodios, String lancamento, String ondeAssistir) {
         this.id = id;
         this.nome = nome;
         this.sinopse = sinopse;
@@ -22,6 +23,7 @@ public class Serie {
         this.temporada = temporada;
         this.episodios = episodios;
         this.lancamento = lancamento;
+        this.ondeAssistir = ondeAssistir;
     }
 
     // getters
@@ -50,8 +52,12 @@ public class Serie {
         return episodios;
     }
 
-    public int getLancamento() {
+    public Stirng getLancamento() {
         return lancamento;
+    }
+
+    public String getOndeAssistir() {
+        return ondeAssistir;
     }
 
     // setters
@@ -80,11 +86,8 @@ public class Serie {
         this.episodios = episodios;
     }
 
-    public void setLancamento(int lancamento) {
-        this.lancamento = lancamento;
+    public void setOndeAssistir(String ondeAssistir) {
+        this.ondeAssistir = ondeAssistir;
     }
-
-
-
 
 }
