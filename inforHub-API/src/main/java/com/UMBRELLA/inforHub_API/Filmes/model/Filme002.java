@@ -1,4 +1,4 @@
-package com.UMBRELLA.inforHub_API.model;
+package com.UMBRELLA.inforHub_API.Filmes.model;
 
 
 public class Filme002 {

@@ -1,7 +1,10 @@
-package com.UMBRELLA.inforHub_API.controller;
+package com.UMBRELLA.inforHub_API.Series.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.UMBRELLA.inforHub_API.Series.model.Serie;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,29 +13,28 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.ArrayList;
-import com.UMBRELLA.inforHub_API.model.Serie;
 
 @RestController
 public class controllerSeries {
     private List<Serie> series = new ArrayList<>();
 
-    Long proximalId;
+    Long proximalId = 1L;
 
-    @PostMapping("/Serie")
+    @PostMapping("/serie")
     public ResponseEntity<Serie> adicionarSerie(@RequestBody Serie serie) {
 
-       series.setId(proximalId);
+       serie.setId(proximalId);
        proximalId++;
 
        series.add(serie);
 
-       return ResponseEntity.ok(Serie);
+       return ResponseEntity.ok(serie);
 
     }
 
-    @GetMapping("/Series")
-    public ResponseEntity<Serie> litarTodasAsSeries() {
-        ResponseEntity.ok(Serie);
+    @GetMapping("/series")
+    public ResponseEntity<List<Serie>> litarTodasAsSeries() {
+        return ResponseEntity.ok(series);
     }
 
     // buscar uma serie especifica pelo seu id;
@@ -49,18 +51,19 @@ public class controllerSeries {
     }
 
     // busca por informacoes especifica, pode-se por: lancamento, genero e plataforma;
-    @GetMapping("/serie/{atributoExpecifico}")
-    public ResponseEntity<List<Serie>> buscarPorAtributoExpecifico(@PathVariable Stirng especifico) {
-        List<Serie> buscaEspecifica = new ArriyList<>();
+    @GetMapping("/serie/{especifico}")
+    public ResponseEntity<List<Serie>> buscarPorAtributoEspecifico(@PathVariable String especifico) {
+        List<Serie> buscaEspecifica = new ArrayList<>();
+
 
         for (Serie serie : series) {
             if (serie.getLancamento().equalsIgnoreCase(especifico) || serie.getGenero().equalsIgnoreCase(especifico) || serie.getOndeAssistir().equalsIgnoreCase(especifico)) {
-                buscaEspecifica.add(especifico);
-                return ResponseEntity.ok(buscaEspecifica);
+                buscaEspecifica.add(serie);
             }
         }
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(buscaEspecifica);
+
     }
 
     @PutMapping("/serie/{id}")
@@ -85,13 +88,13 @@ public class controllerSeries {
     }
 
     @DeleteMapping("/serie/{id}")
-    public ResponseEntity<Serie> deletarPorId(@PathVariable Ling id) {
+    public ResponseEntity<Serie> deletarPorId(@PathVariable Long id) {
 
         Serie encontrada = null;
 
         for (Serie serie : series) {
             if (serie.getId().equals(id)) {
-                encontrada = id;
+                encontrada = serie;
             }
         }
 
@@ -100,7 +103,7 @@ public class controllerSeries {
             return ResponseEntity.ok(encontrada);
         }
 
-        return ResponseEntity.notFound().builde();
+        return ResponseEntity.notFound().build();
     }
     
 }

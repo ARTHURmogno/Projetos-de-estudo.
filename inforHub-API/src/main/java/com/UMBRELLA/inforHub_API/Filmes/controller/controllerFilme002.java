@@ -1,4 +1,4 @@
-package com.UMBRELLA.inforHub_API.controller;
+package com.UMBRELLA.inforHub_API.Filmes.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.ArrayList;
-import com.UMBRELLA.inforHub_API.model.Filme002;
+import com.UMBRELLA.inforHub_API.Filmes.model.Filme002;
 
 @RestController
 public class controllerFilme002 {

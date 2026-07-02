@@ -1,4 +1,4 @@
-package com.UMBRELLA.inforHub_API.model;
+package com.UMBRELLA.inforHub_API.Series.model;
 
 public class Serie {
 
@@ -8,14 +8,14 @@ public class Serie {
     private String genero;
     private int temporada;
     private int episodios;
-    private Stirng lancamento;
+    private String lancamento;
     private String ondeAssistir;
 
     public Serie() {
 
     }
 
-    public Serie(Long id, String nome, String sinopse, Stirng genero, int temporada, int episodios, String lancamento, String ondeAssistir) {
+    public Serie(Long id, String nome, String sinopse, String genero, int temporada, int episodios, String lancamento, String ondeAssistir) {
         this.id = id;
         this.nome = nome;
         this.sinopse = sinopse;
@@ -52,7 +52,7 @@ public class Serie {
         return episodios;
     }
 
-    public Stirng getLancamento() {
+    public String getLancamento() {
         return lancamento;
     }
 
