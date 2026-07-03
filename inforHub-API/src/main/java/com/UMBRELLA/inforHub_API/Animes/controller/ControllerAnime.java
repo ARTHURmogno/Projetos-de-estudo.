@@ -22,10 +22,12 @@ public class ControllerAnime {
     Long proximalId = 1L;
 
     @PostMapping("/anime")
-    public ResponseEntity<Anime> adicionarAnime(@RequestBoty Anime anime) {
+    public ResponseEntity<Anime> adicionarAnime(@RequestBody Anime anime) {
 
         anime.setId(proximalId);
         proximalId++;
+
+        animes.add(anime);
 
         return ResponseEntity.ok(anime);
     }
@@ -48,12 +50,12 @@ public class ControllerAnime {
     }
 
     // animes por atributo especifico, busca por: genero e plataforma de streaming.
-    @GetMapping("/anime/{especifico}")
+    @GetMapping("/animes/{especifico}")
     public ResponseEntity<List<Anime>> animesEspecificos(@PathVariable String especifico) {
         List<Anime> animesEncontrados = new ArrayList<>();
 
         for (Anime anime : animes) {
-            if (anime.getGenero().equalsIgnoreCase(especifico) || anime.getOndeAssistir().equals(especifico)) {
+            if (anime.getGenero().equalsIgnoreCase(especifico) || anime.getOndeAssistir().equalsIgnoreCase(especifico)) {
                 animesEncontrados.add(anime);
             }
         }
@@ -62,7 +64,7 @@ public class ControllerAnime {
 
     }
 
-    @PutMapping("/anime/{novoAnime}/{id}")
+    @PutMapping("/animeAlterar/{id}")
     public ResponseEntity<Anime> alterarAnime(@RequestBody Anime novoAnime, @PathVariable Long id) {
 
         for (Anime anime : animes) {
@@ -76,7 +78,7 @@ public class ControllerAnime {
                 anime.setEpisodios(novoAnime.getEpisodios());
                 anime.setTemporada(novoAnime.getTemporada());
 
-                return ResponseEntity.ok(novoAnime);
+                return ResponseEntity.ok(anime);
             }
         }
 
@@ -93,6 +95,10 @@ public class ControllerAnime {
                 encontrado = anime;
             }
         }
+        if (encontrado == null) {
+            return ResponseEntity.notFound().build();
+        }
+        
         animes.remove(encontrado);
 
         return ResponseEntity.ok(encontrado);
