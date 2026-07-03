@@ -7,6 +7,7 @@ public class Anime{
     private String genero;
     private String sinopse;
     private String ondeAssistir;
+    private int anoDeLancamento;
     private int episodios;
     private int temporada;
 
@@ -14,7 +15,7 @@ public class Anime{
 
     }
 
-    public Anime(Long id, String nome, String genero, String sinopse, String ondeAssistir, int episodios, int temporada) {
+    public Anime(Long id, String nome, String genero, String sinopse, String ondeAssistir, int anoDeLancamento, int episodios, int temporada) {
         if (nome == null || nome.isBlank()) {
             throw new IllegalArgumentExecpition("nome não pode ser nulo ou vazio.");
         }
@@ -27,6 +28,9 @@ public class Anime{
         if (ondeAssistir == null || ondeAssistir.isBlock()) {
             throw new IllegalArgumentExecpition("ondeAssistir não pode ser nulo nem vazio.");
         }
+        if (anoDeLancamento < 1000 || anoDeLancamento > 3000 || anoDeLancamento <= 0) {
+            throw new IllegalAgumentExcpition("ano de lançamento não; pode ser 0 nem menor que 1500.");
+        }
         if (episodios <= 0) {
             throw new IllegalArgumentExecpition("episodios não pode ser negativo nem 0.");
         }
@@ -38,6 +42,7 @@ public class Anime{
         this.genero = genero;
         this.sinopse = sinopse;
         this.ondeAssistir = ondeAssistir;
+        this.anoDeLancamento = anoDeLancamento;
         this.episodios = episodios;
         this.temporada = temporada;
     }
@@ -63,6 +68,10 @@ public class Anime{
 
     public String getOndeAssistir() {
         return ondeAssistir;
+    }
+
+    public int getAnoDeLancamento() {
+        return anoDeLancamento;
     }
 
     public int getEpisodios() {
@@ -93,6 +102,10 @@ public class Anime{
 
     public void setOndeAssistir(String ondeAssistir) {
         this.ondeAssistir = ondeAssistir;
+    }
+
+    public void setAnoDeLancamento(int anoDeLancamento) {
+        this.anoDeLancamento = anoDeLancamento;
     }
 
     public void setEpisodios(int episodios) {
