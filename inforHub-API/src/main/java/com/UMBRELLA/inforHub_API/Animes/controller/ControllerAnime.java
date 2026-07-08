@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
+import com.UMBRELLA.inforHub_API.Animes.service.AnimeService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,28 +14,26 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.ArrayList;
 
 @RestController
 public class ControllerAnime {
-    private List<Anime> animes = new ArrayList<>();
+    private AnimeService animeService = new AnimeService();
 
     Long proximalId = 1L;
 
     @PostMapping("/anime")
     public ResponseEntity<Anime> adicionarAnime(@RequestBody Anime anime) {
 
-        anime.setId(proximalId);
-        proximalId++;
-
-        animes.add(anime);
+        animeService.adicionarAnime(anime);
 
         return ResponseEntity.ok(anime);
     }
 
     @GetMapping("/animes")
     public ResponseEntity<List<Anime>> listarTodos() {
-        return ResponseEntity.ok(animes);
+
+        return ResponseEntity.ok(animeService.listarTodos());
+        
     }
 
     @GetMapping("/anime/{id}")
@@ -98,7 +97,7 @@ public class ControllerAnime {
         if (encontrado == null) {
             return ResponseEntity.notFound().build();
         }
-        
+
         animes.remove(encontrado);
 
         return ResponseEntity.ok(encontrado);
