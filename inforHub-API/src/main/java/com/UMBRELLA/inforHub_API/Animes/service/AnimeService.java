@@ -13,7 +13,7 @@ public class AnimeService {
 
         for (Anime animeNew : animes) {
             if (animeNew.getNome().trim().equalsIgnoreCase(anime.getNome().trim())) {
-                throw new IllegalArgumentException("Anime já essiste.");
+                throw new IllegalArgumentException("Anime já cadastrado.");
         }
     }
 
@@ -80,6 +80,14 @@ public class AnimeService {
         }
 
         throw new IllegalArgumentException("nenhum anime encontrado com esté id." + id);
+
+    }
+
+    public Long deletarPorId(Long id) {
+
+        Anime encontrado = buscarPorId(id);
+        animes.remove(encontrado);
+        return id;
 
     }
 

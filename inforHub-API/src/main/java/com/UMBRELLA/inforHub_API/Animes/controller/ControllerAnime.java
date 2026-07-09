@@ -59,21 +59,9 @@ public class ControllerAnime {
     }
 
     @DeleteMapping("/animeDeletar/{id}")
-    public ResponseEntity<Anime> deletarPorId(@PathVariable Long id) {
-        Anime encontrado = null;
+    public ResponseEntity<Long> deletarPorId(@PathVariable Long id) {
 
-        for (Anime anime : animes) {
-            if (anime.getId().equals(id)) {
-                encontrado = anime;
-            }
-        }
-        if (encontrado == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        animes.remove(encontrado);
-
-        return ResponseEntity.ok(encontrado);
+        return ResponseEntity.ok(animeService.deletarPorId(id));
 
     }
 
