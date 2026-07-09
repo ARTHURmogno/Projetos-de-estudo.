@@ -39,49 +39,22 @@ public class ControllerAnime {
     @GetMapping("/anime/{id}")
     public ResponseEntity<Anime> mostrarPorId(@PathVariable Long id) {
 
-        for (Anime anime : animes) {
-            if (anime.getId().equals(id)) {
-                return ResponseEntity.ok(anime);
-            }
-        }
+        return ResponseEntity.ok(animeService.buscarPorId(id));
 
-        return ResponseEntity.notFound().build();
     }
 
     // animes por atributo especifico, busca por: genero e plataforma de streaming.
     @GetMapping("/animes/{especifico}")
     public ResponseEntity<List<Anime>> animesEspecificos(@PathVariable String especifico) {
-        List<Anime> animesEncontrados = new ArrayList<>();
 
-        for (Anime anime : animes) {
-            if (anime.getGenero().equalsIgnoreCase(especifico) || anime.getOndeAssistir().equalsIgnoreCase(especifico)) {
-                animesEncontrados.add(anime);
-            }
-        }
-
-        return ResponseEntity.ok(animesEncontrados);
+        return ResponseEntity.ok(animeService.buscarPorEspecifico(especifico));
 
     }
 
     @PutMapping("/animeAlterar/{id}")
     public ResponseEntity<Anime> alterarAnime(@RequestBody Anime novoAnime, @PathVariable Long id) {
 
-        for (Anime anime : animes) {
-            if (anime.getId().equals(id)) {
-
-                anime.setNome(novoAnime.getNome());
-                anime.setGenero(novoAnime.getGenero());
-                anime.setSinopse(novoAnime.getSinopse());
-                anime.setOndeAssistir(novoAnime.getOndeAssistir());
-                anime.setAnoDeLancamento(novoAnime.getAnoDeLancamento());
-                anime.setEpisodios(novoAnime.getEpisodios());
-                anime.setTemporada(novoAnime.getTemporada());
-
-                return ResponseEntity.ok(anime);
-            }
-        }
-
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(animeService.alterarAnimePorId(novoAnime, id));
 
     }
 
