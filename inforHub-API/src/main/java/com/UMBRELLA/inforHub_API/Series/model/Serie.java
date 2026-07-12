@@ -131,7 +131,7 @@ public class Serie {
         if (ondeAssistir == null || ondeAssistir.isBlank()) {
             throw new IllegalArgumentException("Onde Assistir não pode ser nulo nem vazio.");
         }
-        
+
         this.ondeAssistir = ondeAssistir;
     }
 

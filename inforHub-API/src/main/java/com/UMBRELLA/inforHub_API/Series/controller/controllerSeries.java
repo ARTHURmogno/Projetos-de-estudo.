@@ -21,7 +21,7 @@ public class controllerSeries {
 
     @PostMapping("/serie")
     public ResponseEntity<Serie> adicionarSerie(@RequestBody Serie serie) {
-        return ResponseEntity.ok(serieService.novaSerie(serie));
+        return ResponseEntity.ok(serieService.adicionarSerie(serie));
 
     }
 
@@ -54,7 +54,7 @@ public class controllerSeries {
     @DeleteMapping("/serie/{id}")
     public ResponseEntity<Long> deletarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(serieService.deletarPorId(id));
-        
+
     }
     
 }
