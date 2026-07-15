@@ -1,5 +1,6 @@
 package com.UMBRELLA.inforHub_API.Series.controller;
 
+import com.UMBRELLA.inforHub_API.Series.repository.SerieRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +18,14 @@ import java.util.List;
 
 @RestController
 public class controllerSeries {
-    private SerieService serieService = new SerieService();
 
+    private final SerieService serieService;
+
+    public controllerSeries(SerieService serieService) {
+        this.serieService = serieService;
+    }
+
+    
     @PostMapping("/serie")
     public ResponseEntity<Serie> adicionarSerie(@RequestBody Serie serie) {
         return ResponseEntity.ok(serieService.adicionarSerie(serie));

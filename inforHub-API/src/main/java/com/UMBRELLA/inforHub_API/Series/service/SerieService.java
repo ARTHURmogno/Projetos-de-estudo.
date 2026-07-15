@@ -1,44 +1,42 @@
 package com.UMBRELLA.inforHub_API.Series.service;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.repository.support.Repositories;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 
 import com.UMBRELLA.inforHub_API.Series.model.Serie;
+import com.UMBRELLA.inforHub_API.Series.repository.SerieRepository;
 
+@Service
 public class SerieService {
-    private List<Serie> series = new ArrayList<>();
 
-    Long proximoId = 1L;
+    private final SerieRepository serieRepository;
+
+    public SerieService(SerieRepository serieRepository) {
+        this.serieRepository = serieRepository;
+    }
 
     public Serie adicionarSerie(Serie novaSerie) {
 
-        for (Serie serie : series) {
-            if (serie.getNome().trim().equalsIgnoreCase(novaSerie.getNome())) {
+            if (serieRepository.exisexistsByNome(novaSerie.getNome())) {
                 throw new IllegalArgumentException("Serie já cadastrada.");
             }
-        }
 
-        novaSerie.setId(proximoId);
-        proximoId++;
-
-        series.add(novaSerie);
-
-        return novaSerie;
+        return serieRepository.save(novaSerie);
     }
 
     public List<Serie> listarTodas() {
-        return series;
+        return serieRepository.findAll();
     }
 
     public Serie buscarPorId(Long id) {
+        return serieRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Id não encontrado: " + id));  
 
-        for (Serie serie : series) {
-            if (serie.getId().equals(id)) {
-                return serie;
-            }
-        }
-
-        throw new IllegalArgumentException("Id não encontrado: " + id);    
     }
 
     public List<Serie> buscarPorEspecifico(String especifico) {
