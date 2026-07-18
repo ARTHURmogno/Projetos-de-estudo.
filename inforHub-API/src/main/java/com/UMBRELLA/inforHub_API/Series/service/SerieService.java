@@ -55,10 +55,9 @@ public class SerieService {
         return seriesEspecificas;
     }
 
-    public Serie alterarSerie(Serie serieAtualizada, Long id) {
-
-        for (Serie serie : series) {
-            if (serie.getId().equals(id)) {
+     public Serie alterarSerie(Serie serieAtualizada, Long id) {
+        Serie serie = serieRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("id não encontrado."));
 
                 serie.setNome(serieAtualizada.getNome());
                 serie.setSinopse(serieAtualizada.getSinopse());
@@ -67,14 +66,13 @@ public class SerieService {
                 serie.setEpisodios(serieAtualizada.getEpisodios());
                 serie.setOndeAssistir(serieAtualizada.getOndeAssistir());
 
-                return serie;
-            }
-        }
+                serieRepository.save(serieAtualizada);
 
-        throw new IllegalArgumentException("Id não encontrado: " + id);
+            return serie;
 
     }
 
+    
     public Long deletarPorId(Long id) {
 
         Serie encontrodo = buscarPorId(id);
@@ -82,7 +80,6 @@ public class SerieService {
 
         return id;
     }
-
 
     
 }
