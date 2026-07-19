@@ -46,10 +46,19 @@ public class controllerSeries {
     }
 
     // busca por informacoes especifica, pode-se por: lancamento, genero e plataforma;
-    @GetMapping("/serie/{especifico}")
-    public ResponseEntity<List<Serie>> buscarPorAtributoEspecifico(@PathVariable String especifico) {
-        return ResponseEntity.ok(serieService.buscarPorEspecifico(especifico));
+    @GetMapping("/serie/{genero}")
+    public ResponseEntity<List<Serie>> buscarPorGenero(@PathVariable String genero) {
+        return ResponseEntity.ok(serieService.buscarPorGenero(genero));
+    }
 
+    @GetMapping("/serie/{lancamento}")
+    public ResponseEntity<List<Serie>> buscarPorLancamento(@PathVariable String lancamento) {
+        return ResponseEntity.ok(serieService.buscarPorLancamento(lancamento));
+    }
+
+    @GetMapping("/serie/{plataforma}")
+    public ResponseEntity<List<Serie>> buscaPorPlataforma(@PathVariable String ondeAssistir) {
+        return ResponseEntity.ok(serieService.buscarPorPlataforma(ondeAssistir));
     }
 
     @PutMapping("/serie/{id}")

@@ -22,7 +22,7 @@ public class SerieService {
 
     public Serie adicionarSerie(Serie novaSerie) {
 
-            if (serieRepository.exisexistsByNome(novaSerie.getNome())) {
+            if (serieRepository.sexistsByNome(novaSerie.getNome())) {
                 throw new IllegalArgumentException("Serie já cadastrada.");
             }
 
@@ -39,20 +39,34 @@ public class SerieService {
 
     }
 
-    public List<Serie> buscarPorEspecifico(String especifico) {
-        List<Serie> seriesEspecificas = new ArrayList<>();
+    public List<Serie> buscarPorGenero(String genero) {
+        List<Serie> lista = serieRepository.findByGenero(genero);
 
-        for (Serie serie : series) {
-            if (serie.getGenero().trim().equalsIgnoreCase(especifico)
-                || serie.getLancamento().trim().equalsIgnoreCase(especifico)
-                || serie.getOndeAssistir().trim().equalsIgnoreCase(especifico));
+        if (lista.isEmpty()) {
+            throw new IllegalArgumentException("Gênero não encontrado.");
         }
 
-        if (seriesEspecificas.isEmpty()) {
-             throw new IllegalArgumentException("Serie não encontrada: " + especifico);
+        return lista;
+    }
+
+    public List<Serie> buscarPorLancamento(String lancamento) {
+        List<Serie> lista = serieRepository.findByLancamento(lancamento);
+
+        if (lista.isEmpty()) {
+            throw new IllegalArgumentException("Lançâmento não encontrado.");
         }
 
-        return seriesEspecificas;
+        return lista;
+    }
+
+    public List<Serie> buscarPorPlataforma(String ondeAssistir) {
+        List<Serie> lista = serieRepository.findByOndeAssistir(ondeAssistir);
+
+        if (lista.isEmpty()) {
+            throw new IllegalArgumentException("Busca por plataforma, nada encontrodo.");
+        }
+
+        return lista;
     }
 
      public Serie alterarSerie(Serie serieAtualizada, Long id) {
@@ -75,10 +89,11 @@ public class SerieService {
     
     public Long deletarPorId(Long id) {
 
-        Serie encontrodo = buscarPorId(id);
-        series.remove(encontrodo);
+        buscarPorId(id);
 
+        serieRepository.deleteById(id);
         return id;
+
     }
 
     
