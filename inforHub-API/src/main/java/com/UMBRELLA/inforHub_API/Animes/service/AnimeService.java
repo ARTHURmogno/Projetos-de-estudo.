@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
 
+@Service
 public class AnimeService {
 
     private final AnimeRepository animeRepository;
@@ -15,47 +16,46 @@ public class AnimeService {
         this.animeRepository = animeRepository;
     }
 
-    public Anime adicionarAnime(Anime anime) {
+    public Anime adicionarAnime(Anime novoAnime) {
+        if (animeRepository.existsByNome(novoAnime.getNome())) {
+            throw new IllegalArgumentException("Anime já cadastrado.");
+        }
+
+        return animeRepository.save(novoAnime);
     }
 
-    public List<Anime> listarTodos() {
-
-     return animes;
+    public Long todosAnime() {
+        return animeRepository.count();
     }
 
     public Anime buscarPorId(Long id) {
-
-        for (Anime anime : animes) {
-            if (anime.getId().equals(id)) {
-                return anime;
-            }
-        }
-
-        throw new IllegalArgumentException("Nenhum anime encontrado com o id: " + id);
-
+        return animeRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Nada encontrado."));
     }
 
-    public List<Anime> buscarPorEspecifico(String especifico) {
-        List<Anime> animesEspecificos = new ArrayList<>();
+    public List<Anime> buscarPorGenero(String genero) {
+        List<Anime> lista = animeRepository.findByGenero(genero);
 
-        for (Anime anime : animes) {
-            if (anime.getGenero().trim().equalsIgnoreCase(especifico) || anime.getOndeAssistir().trim().equalsIgnoreCase(especifico)) {
-                animesEspecificos.add(anime);
-            }
+        if (lista.isEmpty()) {
+            throw new IllegalArgumentException("Nada encontrado.");
         }
 
-        if (animesEspecificos.isEmpty()) {
-           throw new IllegalArgumentException("Nenhum anime encontrado com estas especificações:" + especifico);
+        return lista;
+    }
+
+    public List<Anime> buscarPorPlataforma(String ondeAssistir) {
+        List<Anime> lista = animeRepository.findByOndeAssistir(ondeAssistir);
+
+        if (lista.isEmpty()) {
+            throw new IllegalArgumentException("Nada encontrado.");
         }
 
-        return animesEspecificos;
-
+        return lista;
     }
 
     public Anime alterarAnimePorId(Anime novoAnime, Long id) {
-
-        for (Anime anime : animes) {
-            if (anime.getId().equals(id)) {
+        Anime anime = animeRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Nada encontrado: " + id));
 
                 anime.setNome(novoAnime.getNome());
                 anime.setGenero(novoAnime.getGenero());
@@ -64,22 +64,17 @@ public class AnimeService {
                 anime.setAnoDeLancamento(novoAnime.getAnoDeLancamento());
                 anime.setEpisodios(novoAnime.getEpisodios());
                 anime.setTemporada(novoAnime.getTemporada());
+                
+                animeRepository.save(anime);
 
-                return novoAnime;
-
-            }
+            return anime;
         }
 
-        throw new IllegalArgumentException("nenhum anime encontrado com esté id." + id);
-
-    }
-
     public Long deletarPorId(Long id) {
+        buscarPorId(id);
 
-        Anime encontrado = buscarPorId(id);
-        animes.remove(encontrado);
+        animeRepository.deleteById(id);
         return id;
-
     }
 
     

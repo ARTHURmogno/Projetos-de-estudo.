@@ -27,16 +27,13 @@ public class ControllerAnime {
     @PostMapping("/anime")
     public ResponseEntity<Anime> adicionarAnime(@RequestBody Anime anime) {
 
-        animeService.adicionarAnime(anime);
-
-        return ResponseEntity.ok(anime);
+        return ResponseEntity.ok(animeService.adicionarAnime(anime));
     }
 
     @GetMapping("/animes")
-    public ResponseEntity<List<Anime>> listarTodos() {
+    public ResponseEntity<Long> listarTodos() {
 
-        return ResponseEntity.ok(animeService.listarTodos());
-        
+        return ResponseEntity.ok(animeService.todosAnime());
     }
 
     @GetMapping("/anime/{id}")
@@ -47,21 +44,26 @@ public class ControllerAnime {
     }
 
     // animes por atributo especifico, busca por: genero e plataforma de streaming.
-    @GetMapping("/animes/{especifico}")
-    public ResponseEntity<List<Anime>> animesEspecificos(@PathVariable String especifico) {
+    @GetMapping("/animes/{genero}")
+    public ResponseEntity<List<Anime>> buscarPorGenero(@PathVariable String genero) {
 
-        return ResponseEntity.ok(animeService.buscarPorEspecifico(especifico));
-
+        return ResponseEntity.ok(animeService.buscarPorGenero(genero));
     }
 
-    @PutMapping("/animeAlterar/{id}")
+    @GetMapping("/anime/Plataforma/{ondeAssistrir}")
+    public ResponseEntity<List<Anime>> buscarPorPlatadorma(@PathVariable String ondeAssistir) {
+
+        return ResponseEntity.ok(animeService.buscarPorPlataforma(ondeAssistir));
+    }
+
+    @PutMapping("/anime/{id}")
     public ResponseEntity<Anime> alterarAnime(@RequestBody Anime novoAnime, @PathVariable Long id) {
 
         return ResponseEntity.ok(animeService.alterarAnimePorId(novoAnime, id));
 
     }
 
-    @DeleteMapping("/animeDeletar/{id}")
+    @DeleteMapping("/anime/{id}")
     public ResponseEntity<Long> deletarPorId(@PathVariable Long id) {
 
         return ResponseEntity.ok(animeService.deletarPorId(id));
