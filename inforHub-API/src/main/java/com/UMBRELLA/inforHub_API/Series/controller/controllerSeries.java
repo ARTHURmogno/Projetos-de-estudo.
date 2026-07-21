@@ -26,19 +26,19 @@ public class controllerSeries {
     }
 
     
-    @PostMapping("/serie")
+    @PostMapping("/serie/save")
     public ResponseEntity<Serie> adicionarSerie(@RequestBody Serie serie) {
         return ResponseEntity.ok(serieService.adicionarSerie(serie));
 
     }
 
-    @GetMapping("/series")
-    public ResponseEntity<List<Serie>> litarTodasAsSeries() {
-        return ResponseEntity.ok(serieService.listarTodas());
+    @GetMapping("/series/quantidade")
+    public ResponseEntity<Long> seriesQuantidade() {
+        return ResponseEntity.ok(serieService.contarSeries());
     }
 
     // buscar uma serie especifica pelo seu id;
-    @GetMapping("/Serie/{id}")
+    @GetMapping("/Serie/buscar/{id}")
     public ResponseEntity<Serie> buscarPorId(@PathVariable Long id) {
 
         return ResponseEntity.ok(serieService.buscarPorId(id));
@@ -61,13 +61,13 @@ public class controllerSeries {
         return ResponseEntity.ok(serieService.buscarPorPlataforma(ondeAssistir));
     }
 
-    @PutMapping("/serie/{id}")
+    @PutMapping("/serie/update/{id}")
     public ResponseEntity<Serie> atualizarPorId(@PathVariable Long id, @RequestBody Serie novaSerie) {
         return ResponseEntity.ok(serieService.alterarSerie(novaSerie, id));
 
     }
 
-    @DeleteMapping("/serie/{id}")
+    @DeleteMapping("/serie/delete/{id}")
     public ResponseEntity<Long> deletarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(serieService.deletarPorId(id));
 

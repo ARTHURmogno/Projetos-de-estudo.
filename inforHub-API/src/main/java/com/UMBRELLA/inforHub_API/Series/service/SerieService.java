@@ -29,8 +29,10 @@ public class SerieService {
         return serieRepository.save(novaSerie);
     }
 
-    public List<Serie> listarTodas() {
-        return serieRepository.findAll();
+    public Long contarSeries() {
+        Long quantidade = serieRepository.count();
+
+        return quantidade;
     }
 
     public Serie buscarPorId(Long id) {
