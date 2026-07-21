@@ -1,85 +1,78 @@
 package com.UMBRELLA.inforHub_API.Filmes.service;
 
+import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Optional;
+
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
+import com.UMBRELLA.inforHub_API.Filmes.repository.FilmeRepository;
 
+@Service
 public class FilmeService {
-    private List<Filme> filmes = new ArrayList<>();
 
-    Long proximalId = 1L;
+    private final FilmeRepository filmeRepository;
+
+    public FilmeService(FilmeRepository filmeRepository) {
+        this.filmeRepository = filmeRepository;
+    }
 
     public Filme adicionarFilme(Filme novoFilme) {
-
-        for (Filme filme : filmes) {
-            if (filme.getTitulo().trim().equalsIgnoreCase(novoFilme.getTitulo())) {
-                throw new IllegalArgumentException("Filme já cadastrado:"); 
-            }
+        if (filmeRepository.existsByTitulo(novoFilme.getTitulo())) {
+            throw new IllegalArgumentException("Filme já cadastrado.");
         }
 
-        novoFilme.setId(proximalId);
-        proximalId++;
-
-        filmes.add(novoFilme);
-        return novoFilme;
-
+        return filmeRepository.save(novoFilme);
     }
 
-    public List<Filme> listarTodos() {
-        return filmes;
+    public Long todosOsFilmes() {
+        Long quantidade = filmeRepository.count();
+
+        return quantidade;
     }
 
-    public List<Filme> buscarPoEspecifico(String genero) {
-        List<Filme> especificos = new ArrayList<>();
+    public List<Filme> buscarPorGenero(String genero) {
+        List<Filme> lista = filmeRepository.findByGenero(genero);
 
-        for (Filme filme : filmes) {
-            if (filme.getGenero().trim().equalsIgnoreCase(genero)) {
-                especificos.add(filme);
-            }
+        if (lista.isEmpty()) {
+            throw new IllegalArgumentException("Buscar por Gênero, nada encontrado.");
         }
 
-        if (especificos.isEmpty()) {
-            throw new IllegalArgumentException("Nem um filme emcontrodo por: " + genero);
+        return lista;
+    }
+
+    public List<Filme> buscarPorPlataforma(String ondeAssistri) {
+        List<Filme> lista = filmeRepository.findByOndeAssistir(ondeAssistri);
+
+        if (lista.isEmpty()) {
+            throw new IllegalArgumentException("Busca por Plataforma, nada encontrado.");
         }
 
-        return especificos;
-
+        return lista;
     }
 
     public Filme buscarPorId(Long id) {
-
-        for (Filme filme : filmes) {
-            if (filme.getId().equals(id)) {
-                return filme;
-            }
-        }
-
-            throw new IllegalArgumentException("id não encontrado: " + id);
+        return filmeRepository.findById(id) 
+        .orElseThrow(() -> new IllegalArgumentException("Nada encontrado." + id));
     }
 
     public Filme alterarPorId(Filme novoFilme, Long id) {
-
-        for (Filme filme : filmes) {
-            if (filme.getId().equals(id)) {
+        Filme filme = filmeRepository.findById(id) 
+        .orElseThrow(() -> new IllegalArgumentException("Nada encontrado." + id));
 
                 filme.setTitulo(novoFilme.getTitulo());
                 filme.setSinopse(novoFilme.getSinopse());
                 filme.setGenero(novoFilme.getGenero());
                 filme.setDuracao(novoFilme.getDuracao());
                 filme.setOndeAssistir(novoFilme.getOndeAssistir());
-
-                return filme;
-            }
-        }
-
-        throw new IllegalArgumentException("id não encontrado: " + id);
-
+            
+        filmeRepository.save(filme);
+        return filme;
     }
 
     public Long deletarPorId(Long id) {
-        Filme encontrado = buscarPorId(id);
-        filmes.remove(encontrado);
+        buscarPorId(id);
 
+        filmeRepository.deleteById(id);
         return id;
     }
     

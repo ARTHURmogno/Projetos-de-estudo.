@@ -6,8 +6,6 @@ import java.util.Optional;
 import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 import com.UMBRELLA.inforHub_API.Series.model.Serie;
 import com.UMBRELLA.inforHub_API.Series.repository.SerieRepository;
 
@@ -22,7 +20,7 @@ public class SerieService {
 
     public Serie adicionarSerie(Serie novaSerie) {
 
-            if (serieRepository.sexistsByNome(novaSerie.getNome())) {
+            if (serieRepository.existsByNome(novaSerie.getNome())) {
                 throw new IllegalArgumentException("Serie já cadastrada.");
             }
 
@@ -65,7 +63,7 @@ public class SerieService {
         List<Serie> lista = serieRepository.findByOndeAssistir(ondeAssistir);
 
         if (lista.isEmpty()) {
-            throw new IllegalArgumentException("Busca por plataforma, nada encontrodo.");
+            throw new IllegalArgumentException("Busca por plataforma, nada encontrado.");
         }
 
         return lista;

@@ -17,9 +17,12 @@ import java.util.List;
 
 @RestController
 public class ControllerAnime {
-    private AnimeService animeService = new AnimeService();
 
-    Long proximalId = 1L;
+    private final AnimeService animeService;
+
+    public ControllerAnime(AnimeService animeService) {
+        this.animeService = animeService;
+    }
 
     @PostMapping("/anime")
     public ResponseEntity<Anime> adicionarAnime(@RequestBody Anime anime) {

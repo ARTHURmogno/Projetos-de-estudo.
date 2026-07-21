@@ -1,30 +1,21 @@
 package com.UMBRELLA.inforHub_API.Animes.service;
 
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Optional;
+import org.springframework.stereotype.Service;
+
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
+import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
 
 public class AnimeService {
-    private List<Anime> animes = new ArrayList<>();
 
-    Long proximoId = 1L;
+    private final AnimeRepository animeRepository;
 
-    public Anime adicionarAnime(Anime anime) {
-
-        for (Anime animeNew : animes) {
-            if (animeNew.getNome().trim().equalsIgnoreCase(anime.getNome().trim())) {
-                throw new IllegalArgumentException("Anime já cadastrado.");
-        }
+    public AnimeService(AnimeRepository animeRepository) {
+        this.animeRepository = animeRepository;
     }
 
-        anime.setId(proximoId);
-        proximoId++;
-
-        animes.add(anime);
-
-        return anime;
-
-
+    public Anime adicionarAnime(Anime anime) {
     }
 
     public List<Anime> listarTodos() {
