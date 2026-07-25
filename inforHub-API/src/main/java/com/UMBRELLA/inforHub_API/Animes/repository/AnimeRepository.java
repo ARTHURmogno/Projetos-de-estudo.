@@ -12,5 +12,6 @@ public interface AnimeRepository extends JpaRepository<Anime, Long> {
 
     List<Anime> findByGenero(String genero);
     List<Anime> findByOndeAssistir(String ondeAssistir);
+    List<Anime> findByNomeContainingIgnoreCase(String nome);
 
 }

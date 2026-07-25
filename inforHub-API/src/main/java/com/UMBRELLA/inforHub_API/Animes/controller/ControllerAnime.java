@@ -43,6 +43,12 @@ public class ControllerAnime {
 
     }
 
+    @GetMapping("/anime/buscar/{nome}")
+    public ResponseEntity<List<Anime>> buscarPorNome(@PathVariable String nome) {
+
+        return ResponseEntity.ok(animeService.buscarPorNome(nome));
+    }
+
     // animes por atributo especifico, busca por: genero e plataforma de streaming.
     @GetMapping("/animes/{genero}")
     public ResponseEntity<List<Anime>> buscarPorGenero(@PathVariable String genero) {

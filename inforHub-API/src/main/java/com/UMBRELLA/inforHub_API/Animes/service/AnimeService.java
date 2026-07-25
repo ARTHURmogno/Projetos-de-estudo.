@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
+import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
 
 @Service
 public class AnimeService {
@@ -51,6 +52,16 @@ public class AnimeService {
         }
 
         return lista;
+    }
+
+    public List<Anime> buscarPorNome(String nome) {
+        List<Anime> listaNomes = animeRepository.findByNomeContainingIgnoreCase(nome);
+
+        if (listaNomes.isEmpty()) {
+            throw new ResourceNotFoundException("Nenhum registro encontrado para a busca informada.");
+        }
+
+        return listaNomes;
     }
 
     public Anime alterarAnimePorId(Anime novoAnime, Long id) {
