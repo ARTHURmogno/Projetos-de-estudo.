@@ -12,7 +12,8 @@ public interface FilmeRepository extends JpaRepository<Filme, Long> {
     boolean existsById(Long id);
 
     List<Filme> findByGenero(String genero);
-    
     List<Filme> findByOndeAssistir(String ondeAssistir);
+
+    List<Filme> findAllByOrderByGeneroDesc(String genero);
 
 }

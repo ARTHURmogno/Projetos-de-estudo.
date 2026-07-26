@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
 import com.UMBRELLA.inforHub_API.Filmes.service.FilmeService;
@@ -28,9 +32,14 @@ public class controllerFilme {
     
     }
 
-    @GetMapping("/filmes")
+    @GetMapping("/filmes/count")
     public ResponseEntity<Long> listarFilmes() {
         return ResponseEntity.ok(filmeService.todosOsFilmes());
+    }
+
+    @GetMapping("/filme/mostrar")
+    public ResponseEntity<Page<Filme>> mostrarFilmes(Pageable pageable) {
+        return ResponseEntity.ok(filmeService.mostrarFilmes(pageable));
     }
 
     @GetMapping("/filme/genero/{genero}")

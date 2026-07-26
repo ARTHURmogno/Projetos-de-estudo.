@@ -2,6 +2,9 @@ package com.UMBRELLA.inforHub_API.Animes.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.service.AnimeService;
@@ -30,11 +33,17 @@ public class ControllerAnime {
         return ResponseEntity.ok(animeService.adicionarAnime(anime));
     }
 
-    @GetMapping("/animes")
+    @GetMapping("/animes/count")
     public ResponseEntity<Long> listarTodos() {
 
         return ResponseEntity.ok(animeService.todosAnime());
     }
+
+    @GetMapping("/anime/mostrar")
+    public ResponseEntity<Page<Anime>> mostrarAnimes(Pageable pageable) {
+
+        return ResponseEntity.ok(animeService.mostrarAnimes(pageable));
+    } 
 
     @GetMapping("/anime/{id}")
     public ResponseEntity<Anime> mostrarPorId(@PathVariable Long id) {

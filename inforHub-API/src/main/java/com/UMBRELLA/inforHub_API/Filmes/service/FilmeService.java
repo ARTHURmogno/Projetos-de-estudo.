@@ -1,8 +1,12 @@
 package com.UMBRELLA.inforHub_API.Filmes.service;
 
+import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
 import com.UMBRELLA.inforHub_API.Filmes.repository.FilmeRepository;
@@ -28,6 +32,10 @@ public class FilmeService {
         Long quantidade = filmeRepository.count();
 
         return quantidade;
+    }
+
+    public Page<Filme> mostrarFilmes(Pageable pageable) {
+        return filmeRepository.findAll(pageable);
     }
 
     public List<Filme> buscarPorGenero(String genero) {
