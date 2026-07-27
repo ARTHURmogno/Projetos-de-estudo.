@@ -38,8 +38,12 @@ public class FilmeService {
         return filmeRepository.findAll(pageable);
     }
 
-    public List<Filme> buscarPorGenero(String genero) {
-        List<Filme> lista = filmeRepository.findByGenero(genero);
+    public Page<Filme> buscarPorNome(String nome, Pageable pageable) {
+        return filmeRepository.findByNomeContainirgIgnoreCaseOrderByNome(nome, pageable);
+    }
+
+    public Page<Filme> buscarPorGenero(String genero, Pageable pageable) {
+        Page<Filme> lista = filmeRepository.findByGeneroContainingIgnoreCaseOrderByNomeDesc(genero, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Buscar por Gênero, nada encontrado.");
@@ -48,8 +52,8 @@ public class FilmeService {
         return lista;
     }
 
-    public List<Filme> buscarPorPlataforma(String ondeAssistri) {
-        List<Filme> lista = filmeRepository.findByOndeAssistir(ondeAssistri);
+    public Page<Filme> buscarPorPlataforma(String ondeAssistri, Pageable pageable) {
+        Page<Filme> lista = filmeRepository.findByOndeAssistirContainingIgnoreCaseOrderByNomeDesc(ondeAssistri, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Busca por Plataforma, nada encontrado.");

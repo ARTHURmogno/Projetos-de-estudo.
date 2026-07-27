@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 
 @RestController
 public class controllerSeries {
@@ -45,20 +49,41 @@ public class controllerSeries {
 
     }
 
+    @GetMapping("/serie/buscar/{nome}")
+    public ResponseEntity<Page<Serie>> buscarPorNome(@PageableDefault(
+             size = 10,
+             sort = "nome",
+             direction = Sort.Direction.DESC)
+             @PathVariable String nome, Pageable pageable) {
+        return ResponseEntity.ok(serieService.buscarPorNome(nome, pageable));
+    }
+
     // busca por informacoes especifica, pode-se por: lancamento, genero e plataforma;
     @GetMapping("/serie/{genero}")
-    public ResponseEntity<List<Serie>> buscarPorGenero(@PathVariable String genero) {
-        return ResponseEntity.ok(serieService.buscarPorGenero(genero));
+    public ResponseEntity<Page<Serie>> buscarPorGenero(@PageableDefault(
+             size = 10,
+             sort = "nome",
+             direction = Sort.Direction.DESC)
+             @PathVariable String genero, Pageable pageable) {
+        return ResponseEntity.ok(serieService.buscarPorGenero(genero, pageable));
     }
 
     @GetMapping("/serie/{lancamento}")
-    public ResponseEntity<List<Serie>> buscarPorLancamento(@PathVariable String lancamento) {
-        return ResponseEntity.ok(serieService.buscarPorLancamento(lancamento));
+    public ResponseEntity<Page<Serie>> buscarPorLancamento(@PageableDefault(
+             size = 10,
+             sort = "nome",
+             direction = Sort.Direction.DESC)
+             @PathVariable String lancamento, Pageable pageable) {
+        return ResponseEntity.ok(serieService.buscarPorLancamento(lancamento, pageable));
     }
 
     @GetMapping("/serie/{plataforma}")
-    public ResponseEntity<List<Serie>> buscaPorPlataforma(@PathVariable String ondeAssistir) {
-        return ResponseEntity.ok(serieService.buscarPorPlataforma(ondeAssistir));
+    public ResponseEntity<Page<Serie>> buscaPorPlataforma(@PageableDefault(
+             size = 10,
+             sort = "nome",
+             direction = Sort.Direction.DESC)
+             @PathVariable String ondeAssistir, Pageable pageable) {
+        return ResponseEntity.ok(serieService.buscarPorPlataforma(ondeAssistir, pageable));
     }
 
     @PutMapping("/serie/update/{id}")

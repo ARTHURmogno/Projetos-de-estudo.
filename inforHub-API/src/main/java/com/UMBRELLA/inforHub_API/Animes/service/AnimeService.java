@@ -40,8 +40,8 @@ public class AnimeService {
         .orElseThrow(() -> new IllegalArgumentException("Nada encontrado."));
     }
 
-    public List<Anime> buscarPorGenero(String genero) {
-        List<Anime> lista = animeRepository.findByGenero(genero);
+    public Page<Anime> buscarPorGenero(String genero, Pageable pageable) {
+        Page<Anime> lista = animeRepository.findByGeneroContainingIgnoreCaseOrderByNome(genero, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Nada encontrado.");
@@ -50,8 +50,8 @@ public class AnimeService {
         return lista;
     }
 
-    public List<Anime> buscarPorPlataforma(String ondeAssistir) {
-        List<Anime> lista = animeRepository.findByOndeAssistir(ondeAssistir);
+    public Page<Anime> buscarPorPlataforma(String ondeAssistir, Pageable pageable) {
+        Page<Anime> lista = animeRepository.findByOndeAssistirContainingIgnoreCaseOrderByNome(ondeAssistir, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Nada encontrado.");
@@ -60,8 +60,8 @@ public class AnimeService {
         return lista;
     }
 
-    public List<Anime> buscarPorNome(String nome) {
-        List<Anime> listaNomes = animeRepository.findByNomeContainingIgnoreCase(nome);
+    public Page<Anime> buscarPorNome(String nome, Pageable pageable) {
+        Page<Anime> listaNomes = animeRepository.findByNomeContainingIgnoreCaseOrderByNomeDesc(nome, pageable);
 
         if (listaNomes.isEmpty()) {
             throw new ResourceNotFoundException("Nenhum registro encontrado para a busca informada.");

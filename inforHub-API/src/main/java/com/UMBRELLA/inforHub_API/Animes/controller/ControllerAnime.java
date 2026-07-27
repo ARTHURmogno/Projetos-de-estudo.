@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
@@ -40,7 +41,12 @@ public class ControllerAnime {
     }
 
     @GetMapping("/anime/mostrar")
-    public ResponseEntity<Page<Anime>> mostrarAnimes(Pageable pageable) {
+    public ResponseEntity<Page<Anime>> mostrarAnimes(
+        @PageableDefault(
+            size = 10,
+            sort = "nome",
+            direction = Sort.Direction.DESC)
+          Pageable pageable) {
 
         return ResponseEntity.ok(animeService.mostrarAnimes(pageable));
     } 
@@ -53,22 +59,22 @@ public class ControllerAnime {
     }
 
     @GetMapping("/anime/buscar/{nome}")
-    public ResponseEntity<List<Anime>> buscarPorNome(@PathVariable String nome) {
+    public ResponseEntity<Page<Anime>> buscarPorNome(@PathVariable String nome, Pageable pageable) {
 
-        return ResponseEntity.ok(animeService.buscarPorNome(nome));
+        return ResponseEntity.ok(animeService.buscarPorNome(nome, pageable));
     }
 
     // animes por atributo especifico, busca por: genero e plataforma de streaming.
     @GetMapping("/animes/{genero}")
-    public ResponseEntity<List<Anime>> buscarPorGenero(@PathVariable String genero) {
+    public ResponseEntity<Page<Anime>> buscarPorGenero(@PathVariable String genero, Pageable pageable) {
 
-        return ResponseEntity.ok(animeService.buscarPorGenero(genero));
+        return ResponseEntity.ok(animeService.buscarPorGenero(genero, pageable));
     }
 
-    @GetMapping("/anime/Plataforma/{ondeAssistrir}")
-    public ResponseEntity<List<Anime>> buscarPorPlatadorma(@PathVariable String ondeAssistir) {
+    @GetMapping("/anime/Plataforma/{ondeAssistir}")
+    public ResponseEntity<Page<Anime>> buscarPorPlatadorma(@PathVariable String ondeAssistir, Pageable pageable) {
 
-        return ResponseEntity.ok(animeService.buscarPorPlataforma(ondeAssistir));
+        return ResponseEntity.ok(animeService.buscarPorPlataforma(ondeAssistir, pageable));
     }
 
     @PutMapping("/anime/{id}")

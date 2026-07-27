@@ -2,10 +2,13 @@ package com.UMBRELLA.inforHub_API.Series.service;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
 
+import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
 import com.UMBRELLA.inforHub_API.Series.model.Serie;
 import com.UMBRELLA.inforHub_API.Series.repository.SerieRepository;
 
@@ -39,8 +42,18 @@ public class SerieService {
 
     }
 
-    public List<Serie> buscarPorGenero(String genero) {
-        List<Serie> lista = serieRepository.findByGenero(genero);
+    public Page<Serie> buscarPorNome(String nome, Pageable pageable) {
+        Page<Serie> lista = serieRepository.findByNomeContainingIgnoreCaseOrderByNomeDesc(nome, pageable);
+
+        if (lista.isEmpty()) {
+            throw new ResourceNotFoundException("Nenhum registro encontrado para a busca informada.");
+        }
+
+        return serieRepository.findByNomeContainingIgnoreCaseOrderByNomeDesc(nome, pageable);
+    }
+
+    public Page<Serie> buscarPorGenero(String genero, Pageable pageable) {
+        Page<Serie> lista = serieRepository.findByGeneroContainingIgnoreCaseOrderByNomeDesc(genero, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Gênero não encontrado.");
@@ -49,8 +62,8 @@ public class SerieService {
         return lista;
     }
 
-    public List<Serie> buscarPorLancamento(String lancamento) {
-        List<Serie> lista = serieRepository.findByLancamento(lancamento);
+    public Page<Serie> buscarPorLancamento(String lancamento, Pageable pageable) {
+        Page<Serie> lista = serieRepository.findByLancamentoContainingIgnoreCaseOrderByNomeDesc(lancamento, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Lançâmento não encontrado.");
@@ -59,8 +72,8 @@ public class SerieService {
         return lista;
     }
 
-    public List<Serie> buscarPorPlataforma(String ondeAssistir) {
-        List<Serie> lista = serieRepository.findByOndeAssistir(ondeAssistir);
+    public Page<Serie> buscarPorPlataforma(String ondeAssistir, Pageable pageable) {
+        Page<Serie> lista = serieRepository.findByOndeAssistirContainingIgnoreCaseOrderByNomeDesc(ondeAssistir, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Busca por plataforma, nada encontrado.");

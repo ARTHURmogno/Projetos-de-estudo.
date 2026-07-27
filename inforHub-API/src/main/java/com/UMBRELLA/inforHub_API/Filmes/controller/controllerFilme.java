@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 
 import java.util.List;
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
@@ -38,20 +40,37 @@ public class controllerFilme {
     }
 
     @GetMapping("/filme/mostrar")
-    public ResponseEntity<Page<Filme>> mostrarFilmes(Pageable pageable) {
+    public ResponseEntity<Page<Filme>> mostrarFilmes(@PageableDefault(
+             size = 10,
+             sort = "nome",
+             direction = Sort.Direction.DESC)
+             Pageable pageable) {
         return ResponseEntity.ok(filmeService.mostrarFilmes(pageable));
     }
 
-    @GetMapping("/filme/genero/{genero}")
-    public ResponseEntity<List<Filme>> buscarPorGenero(@PathVariable String genero) {
+    @GetMapping("filme/buscar/{nome}")
+    public ResponseEntity<Page<Filme>> buscarPorNome(String nome, Pageable pageable) {
+        return ResponseEntity.ok(filmeService.buscarPorNome(nome, pageable));
+    }
 
-        return ResponseEntity.ok(filmeService.buscarPorGenero(genero));
+    @GetMapping("/filme/genero/{genero}")
+    public ResponseEntity<Page<Filme>> buscarPorGenero(@PageableDefault(
+             size = 10,
+             sort = "nome",
+             direction = Sort.Direction.DESC)
+             @PathVariable String genero, Pageable pageable) {
+
+        return ResponseEntity.ok(filmeService.buscarPorGenero(genero, pageable));
     }
 
     @GetMapping("/filme/Plataforma/{ondeAssistir}")
-    public ResponseEntity<List<Filme>> buscarPorPlataforma(@PathVariable String ondeAssistir) {
+    public ResponseEntity<Page<Filme>> buscarPorPlataforma(@PageableDefault(
+             size = 10,
+             sort = "nome",
+             direction = Sort.Direction.DESC)
+             @PathVariable String ondeAssistir, Pageable pageable) {
 
-        return ResponseEntity.ok(filmeService.buscarPorPlataforma(ondeAssistir));
+        return ResponseEntity.ok(filmeService.buscarPorPlataforma(ondeAssistir, pageable));
     }
 
     @GetMapping("/filme/{id}")

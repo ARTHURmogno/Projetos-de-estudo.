@@ -1,6 +1,8 @@
 package com.UMBRELLA.inforHub_API.Animes.repository;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,15 +12,14 @@ public interface AnimeRepository extends JpaRepository<Anime, Long> {
     boolean existsByNome(String nome);
     boolean existsById(Long id);
 
-    List<Anime> findByGenero(String genero);
-    List<Anime> findByOndeAssistir(String ondeAssistir);
-    List<Anime> findByNomeContainingIgnoreCase(String nome);
+    Page<Anime> findByGeneroContainingIgnoreCaseOrderByNome(String genero, Pageable pageable);
+    Page<Anime> findByOndeAssistirContainingIgnoreCaseOrderByNome(String ondeAssistir, Pageable pageable);
+    Page<Anime> findByNomeContainingIgnoreCaseOrderByNomeDesc(String nome, Pageable pageable);
 
-    List<Anime> findAllByOrderByNomeAsc(String nome); //n
-    List<Anime> findAllByOrderByNomeDesc(String nome); //n
+    List<Anime> findAllByOrderByNomeAsc(); //n
 
-    List<Anime> findALLByOrdenByAnoDeLancamentoAsc(int anoDeLancamento); //n
-    List<Anime> findALLByOrdenByAnoDeLancamentoDesc(int anoDeLancamento); //n
+    List<Anime> findAllByOrderByAnoDeLancamentoAsc(); //n
+    List<Anime> findAllByOrderByAnoDeLancamentoDesc(); //n
 
 
 }
