@@ -5,9 +5,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
 
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
+import com.UMBRELLA.inforHub_API.Animes.dto.AnimeResponseDTO;
+
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
 import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
@@ -21,7 +22,20 @@ public class AnimeService {
         this.animeRepository = animeRepository;
     }
 
-    public Anime adicionarAnime(AnimeRequestDTO dto) {
+    /*public AnimeRequestDTO converterParaAnimeRequestDTO(Anime anime) {
+        AnimeRepository dto = new AnimeRepository();
+
+         dto.setNome(anime.getNome());
+         anime.setGenero(dto.getGenero());
+         anime.setSinopse(dto.getSinopse());
+         anime.setOndeAssistir(dto.getOndeAssistir());
+         anime.setAnoDeLancamento(dto.getAnoDeLancamento());
+         anime.setEpisodios(dto.getEpisodios());
+         anime.setTemporada(dto.getTemporada());
+
+    }*/
+
+    public AnimeResponseDTO adicionarAnime(AnimeRequestDTO dto) {
         Anime anime = new Anime();
 
         anime.setNome(dto.getNome());
@@ -38,7 +52,18 @@ public class AnimeService {
 
          Anime novoAnime = animeRepository.save(anime);
 
-         return novoAnime;
+         AnimeResponseDTO response = new AnimeResponseDTO();
+
+         response.setId(novoAnime.getId());
+         response.setNome(novoAnime.getNome());
+         response.setGenero(novoAnime.getGenero());
+         response.setSinopse(novoAnime.getSinopse());
+         response.setOndeAssistir(novoAnime.getOndeAssistir());
+         response.setAnoDeLancamento(novoAnime.getAnoDeLancamento());
+         response.setEpisodios(novoAnime.getEpisodios());
+         response.setTemporada(novoAnime.getTemporada());
+
+         return response;
 
     }
 
@@ -85,7 +110,7 @@ public class AnimeService {
         return listaNomes;
     }
 
-    public Anime alterarAnimePorId(Anime novoAnime, Long id) {
+    /*public Anime alterarAnimePorId(Anime novoAnime, Long id) {
         Anime anime = animeRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Nada encontrado: " + id));
 
@@ -100,7 +125,35 @@ public class AnimeService {
                 animeRepository.save(anime);
 
             return anime;
-        }
+        }*/
+
+            public AnimeResponseDTO alterarAnimePorId(AnimeRequestDTO dto, Long id) {
+                Anime anime = buscarPorId(id);
+
+                 anime.setNome(dto.getNome());
+                 anime.setGenero(dto.getGenero());
+                 anime.setSinopse(dto.getSinopse());
+                 anime.setOndeAssistir(dto.getOndeAssistir());
+                 anime.setAnoDeLancamento(dto.getAnoDeLancamento());
+                 anime.setEpisodios(dto.getEpisodios());
+                 anime.setTemporada(dto.getTemporada());
+
+                Anime novoAnime = animeRepository.save(anime);
+
+                AnimeResponseDTO response = new AnimeResponseDTO();
+
+                 response.setId(novoAnime.getId());
+                 response.setNome(novoAnime.getNome());
+                 response.setGenero(novoAnime.getGenero());
+                 response.setSinopse(novoAnime.getSinopse());
+                 response.setOndeAssistir(novoAnime.getOndeAssistir());
+                 response.setAnoDeLancamento(novoAnime.getAnoDeLancamento());
+                 response.setEpisodios(novoAnime.getEpisodios());
+                 response.setTemporada(novoAnime.getTemporada());
+
+                 return response;
+
+            }
 
     public Long deletarPorId(Long id) {
         buscarPorId(id);

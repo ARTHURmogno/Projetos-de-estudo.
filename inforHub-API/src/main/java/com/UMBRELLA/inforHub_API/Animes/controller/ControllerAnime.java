@@ -7,10 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 
+import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.service.AnimeService;
 import jakarta.validation.Valid;
-
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +31,7 @@ public class ControllerAnime {
     }
 
     @PostMapping("/anime")
-    public ResponseEntity<Anime> adicionarAnime(@RequestBody @Valid AnimeRequestDTO dto) {
+    public ResponseEntity<AnimeRequestDTO> adicionarAnime(@RequestBody @Valid AnimeRequestDTO dto) {
 
         return ResponseEntity.ok(animeService.adicionarAnime(dto));
     }
@@ -80,10 +80,9 @@ public class ControllerAnime {
     }
 
     @PutMapping("/anime/{id}")
-    public ResponseEntity<Anime> alterarAnime(@RequestBody Anime novoAnime, @PathVariable Long id) {
+    public ResponseEntity<AnimeRequestDTO> alterarAnime(@RequestBody @Valid AnimeRequestDTO dto, @PathVariable Long id) {
 
-        return ResponseEntity.ok(animeService.alterarAnimePorId(novoAnime, id));
-
+        return ResponseEntity.ok(animeService.alterarAnimePorId(dto, id));
     }
 
     @DeleteMapping("/anime/{id}")

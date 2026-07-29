@@ -20,18 +20,18 @@ public class Anime{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Nome não pode ser nulo nem vazio.")
     @Size(min = 2, max = 500)
     private String nome;
 
-    @NotBlank
+    @NotBlank(message = "Gênero não pode ser nulo nem vazio.")
     private String genero;
 
-    @NotBlank
+    @NotBlank(message = "Sinopse não pode ser nulo nem vazio.")
     @Size(min = 20, max = 500)
     private String sinopse;
 
-    @NotBlank
+    @NotBlank(message = "Onde Assistir não pode ser nulo nem vazio.")
     private String ondeAssistir;
 
     @Positive
@@ -41,7 +41,7 @@ public class Anime{
 
     @Positive
     private int episodios;
-    
+
     @Positive
     private int temporada;
 
@@ -50,27 +50,6 @@ public class Anime{
     }
 
     public Anime(Long id, String nome, String genero, String sinopse, String ondeAssistir, int anoDeLancamento, int episodios, int temporada) {
-        if (nome == null || nome.isBlank()) {
-            throw new IllegalArgumentException("nome não pode ser nulo ou vazio.");
-        }
-        if (genero == null || genero.isBlank()) {
-            throw new IllegalArgumentException("genero não pode ser nulo nem vazio.");
-        }
-        if (sinopse == null || sinopse.isBlank()) {
-            throw new IllegalArgumentException("sinopse não pode ser nulo nem vazio.");
-        }
-        if (ondeAssistir == null || ondeAssistir.isBlank()) {
-            throw new IllegalArgumentException("ondeAssistir não pode ser nulo nem vazio.");
-        }
-        if (anoDeLancamento < 1000 || anoDeLancamento > 3000) {
-            throw new IllegalArgumentException("ano de lançamento não; pode ser 0 nem menor que 1500.");
-        }
-        if (episodios <= 0) {
-            throw new IllegalArgumentException("episodios não pode ser negativo nem 0.");
-        }
-        if (temporada <= 0) {
-            throw new IllegalArgumentException("temporada não pode ser nullo nem negativo.");
-        }
         this.id = id;
         this.nome = nome;
         this.genero = genero;
