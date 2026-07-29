@@ -5,7 +5,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
 
+import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
 import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
@@ -19,12 +21,25 @@ public class AnimeService {
         this.animeRepository = animeRepository;
     }
 
-    public Anime adicionarAnime(Anime novoAnime) {
-        if (animeRepository.existsByNome(novoAnime.getNome())) {
+    public Anime adicionarAnime(AnimeRequestDTO dto) {
+        Anime anime = new Anime();
+
+        anime.setNome(dto.getNome());
+        anime.setGenero(dto.getGenero());
+        anime.setSinopse(dto.getSinopse());
+        anime.setOndeAssistir(dto.getOndeAssistir());
+        anime.setAnoDeLancamento(dto.getAnoDeLancamento());
+        anime.setEpisodios(dto.getEpisodios());
+        anime.setTemporada(dto.getTemporada());
+
+        if (animeRepository.existsByNome(anime.getNome())) {
             throw new IllegalArgumentException("Anime já cadastrado.");
         }
 
-        return animeRepository.save(novoAnime);
+         Anime novoAnime = animeRepository.save(anime);
+
+         return novoAnime;
+
     }
 
     public Long todosAnime() {

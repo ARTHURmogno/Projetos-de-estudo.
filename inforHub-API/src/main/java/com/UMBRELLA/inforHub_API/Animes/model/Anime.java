@@ -6,6 +6,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+
 @Entity
 @Table(name = "Animes")
 public class Anime{
@@ -14,12 +20,29 @@ public class Anime{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(min = 2, max = 500)
     private String nome;
+
+    @NotBlank
     private String genero;
+
+    @NotBlank
+    @Size(min = 20, max = 500)
     private String sinopse;
+
+    @NotBlank
     private String ondeAssistir;
+
+    @Positive
+    @Min(1900)
+    @Max(2100)
     private int anoDeLancamento;
+
+    @Positive
     private int episodios;
+    
+    @Positive
     private int temporada;
 
     public Anime() {
@@ -100,58 +123,30 @@ public class Anime{
     }
 
     public void setNome(String nome) {
-        if (nome == null || nome.isBlank()) {
-            throw new IllegalArgumentException("Nome obrigatório:");
-        }
-
         this.nome = nome;
     }
 
     public void setGenero(String genero) {
-        if (genero == null || genero.isBlank()) {
-            throw new IllegalArgumentException("Genero obrigatório:");
-        }
-
         this.genero = genero;
     }
-    
-    public void setSinopse(String sinopse) {
-        if (sinopse == null || sinopse.isBlank()) {
-            throw new IllegalArgumentException("Sinopse obrigatírio:");
-        }
 
+    public void setSinopse(String sinopse) {
         this.sinopse = sinopse;
     }
 
     public void setOndeAssistir(String ondeAssistir) {
-        if (ondeAssistir == null || ondeAssistir.isBlank()) {
-            throw new IllegalArgumentException("ondeAssistir obrigatório:");
-        }
-
         this.ondeAssistir = ondeAssistir;
     }
 
     public void setAnoDeLancamento(int anoDeLancamento) {
-        if (anoDeLancamento < 1000 || anoDeLancamento > 3000) {
-            throw new IllegalArgumentException("Ano de lançamento inválido:");
-        }
-
         this.anoDeLancamento = anoDeLancamento;
     }
 
     public void setEpisodios(int episodios) {
-        if (episodios <= 0) {
-            throw new IllegalArgumentException("Episodios não pode ser 0 ou negativo:");
-        }
-
         this.episodios = episodios;
     }
 
     public void setTemporada(int temporada) {
-        if (temporada <= 0) {
-            throw new IllegalArgumentException("Temporada não pode ser 0 ou negativo:");
-        }
-        
         this.temporada = temporada;
     }
 }

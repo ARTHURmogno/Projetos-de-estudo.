@@ -9,6 +9,8 @@ import org.springframework.data.web.PageableDefault;
 
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.service.AnimeService;
+import jakarta.validation.Valid;
+
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,9 +31,9 @@ public class ControllerAnime {
     }
 
     @PostMapping("/anime")
-    public ResponseEntity<Anime> adicionarAnime(@RequestBody Anime anime) {
+    public ResponseEntity<Anime> adicionarAnime(@RequestBody @Valid AnimeRequestDTO dto) {
 
-        return ResponseEntity.ok(animeService.adicionarAnime(anime));
+        return ResponseEntity.ok(animeService.adicionarAnime(dto));
     }
 
     @GetMapping("/animes/count")
