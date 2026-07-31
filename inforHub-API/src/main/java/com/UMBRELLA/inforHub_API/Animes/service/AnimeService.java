@@ -22,49 +22,46 @@ public class AnimeService {
         this.animeRepository = animeRepository;
     }
 
-    /*public AnimeRequestDTO converterParaAnimeRequestDTO(Anime anime) {
-        AnimeRepository dto = new AnimeRepository();
+    private AnimeResponseDTO converterParaAnimeResponseDTO(Anime anime) {
+         AnimeResponseDTO response = new AnimeResponseDTO();
 
-         dto.setNome(anime.getNome());
-         anime.setGenero(dto.getGenero());
-         anime.setSinopse(dto.getSinopse());
-         anime.setOndeAssistir(dto.getOndeAssistir());
-         anime.setAnoDeLancamento(dto.getAnoDeLancamento());
-         anime.setEpisodios(dto.getEpisodios());
-         anime.setTemporada(dto.getTemporada());
+         response.setId(anime.getId());
+         response.setNome(anime.getNome());
+         response.setGenero(anime.getGenero());
+         response.setSinopse(anime.getSinopse());
+         response.setOndeAssistir(anime.getOndeAssistir());
+         response.setAnoDeLancamento(anime.getAnoDeLancamento());
+         response.setEpisodios(anime.getEpisodios());
+         response.setTemporada(anime.getTemporada());
 
-    }*/
+        return response;
+
+    }
+
+    private void copiarDadosDoDTO(Anime anime, AnimeRequestDTO dto) {
+
+                anime.setNome(dto.getNome());
+                anime.setGenero(dto.getGenero());
+                anime.setSinopse(dto.getSinopse());
+                anime.setOndeAssistir(dto.getOndeAssistir());
+                anime.setAnoDeLancamento(dto.getAnoDeLancamento());
+                anime.setEpisodios(dto.getEpisodios());
+                anime.setTemporada(dto.getTemporada());
+
+    }
 
     public AnimeResponseDTO adicionarAnime(AnimeRequestDTO dto) {
         Anime anime = new Anime();
 
-        anime.setNome(dto.getNome());
-        anime.setGenero(dto.getGenero());
-        anime.setSinopse(dto.getSinopse());
-        anime.setOndeAssistir(dto.getOndeAssistir());
-        anime.setAnoDeLancamento(dto.getAnoDeLancamento());
-        anime.setEpisodios(dto.getEpisodios());
-        anime.setTemporada(dto.getTemporada());
+        copiarDadosDoDTO(anime, dto);
 
         if (animeRepository.existsByNome(anime.getNome())) {
             throw new IllegalArgumentException("Anime já cadastrado.");
         }
 
-         Anime novoAnime = animeRepository.save(anime);
+        Anime novoAnime = animeRepository.save(anime);
 
-         AnimeResponseDTO response = new AnimeResponseDTO();
-
-         response.setId(novoAnime.getId());
-         response.setNome(novoAnime.getNome());
-         response.setGenero(novoAnime.getGenero());
-         response.setSinopse(novoAnime.getSinopse());
-         response.setOndeAssistir(novoAnime.getOndeAssistir());
-         response.setAnoDeLancamento(novoAnime.getAnoDeLancamento());
-         response.setEpisodios(novoAnime.getEpisodios());
-         response.setTemporada(novoAnime.getTemporada());
-
-         return response;
-
+        return converterParaAnimeResponseDTO(novoAnime);
     }
 
     public Long todosAnime() {
@@ -110,48 +107,14 @@ public class AnimeService {
         return listaNomes;
     }
 
-    /*public Anime alterarAnimePorId(Anime novoAnime, Long id) {
-        Anime anime = animeRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Nada encontrado: " + id));
-
-                anime.setNome(novoAnime.getNome());
-                anime.setGenero(novoAnime.getGenero());
-                anime.setSinopse(novoAnime.getSinopse());
-                anime.setOndeAssistir(novoAnime.getOndeAssistir());
-                anime.setAnoDeLancamento(novoAnime.getAnoDeLancamento());
-                anime.setEpisodios(novoAnime.getEpisodios());
-                anime.setTemporada(novoAnime.getTemporada());
-                
-                animeRepository.save(anime);
-
-            return anime;
-        }*/
-
             public AnimeResponseDTO alterarAnimePorId(AnimeRequestDTO dto, Long id) {
                 Anime anime = buscarPorId(id);
 
-                 anime.setNome(dto.getNome());
-                 anime.setGenero(dto.getGenero());
-                 anime.setSinopse(dto.getSinopse());
-                 anime.setOndeAssistir(dto.getOndeAssistir());
-                 anime.setAnoDeLancamento(dto.getAnoDeLancamento());
-                 anime.setEpisodios(dto.getEpisodios());
-                 anime.setTemporada(dto.getTemporada());
+                copiarDadosDoDTO(anime, dto);
 
                 Anime novoAnime = animeRepository.save(anime);
 
-                AnimeResponseDTO response = new AnimeResponseDTO();
-
-                 response.setId(novoAnime.getId());
-                 response.setNome(novoAnime.getNome());
-                 response.setGenero(novoAnime.getGenero());
-                 response.setSinopse(novoAnime.getSinopse());
-                 response.setOndeAssistir(novoAnime.getOndeAssistir());
-                 response.setAnoDeLancamento(novoAnime.getAnoDeLancamento());
-                 response.setEpisodios(novoAnime.getEpisodios());
-                 response.setTemporada(novoAnime.getTemporada());
-
-                 return response;
+                return converterParaAnimeResponseDTO(novoAnime);
 
             }
 
