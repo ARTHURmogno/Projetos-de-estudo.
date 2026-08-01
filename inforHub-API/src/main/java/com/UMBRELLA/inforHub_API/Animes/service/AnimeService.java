@@ -77,14 +77,14 @@ public class AnimeService {
         .orElseThrow(() -> new IllegalArgumentException("Nada encontrado."));
     }
 
-    public Page<Anime> buscarPorGenero(String genero, Pageable pageable) {
-        Page<Anime> lista = animeRepository.findByGeneroContainingIgnoreCaseOrderByNome(genero, pageable);
+    public Page<AnimeResponseDTO> buscarPorGenero(String genero, Pageable pageable) {
+        Page<Anime> paginaAnime = animeRepository.findByGeneroContainingIgnoreCaseOrderByNome(genero, pageable);
 
-        if (lista.isEmpty()) {
+        if (paginaAnime.isEmpty()) {
             throw new IllegalArgumentException("Nada encontrado.");
         }
 
-        return lista;
+        return paginaAnime.map(this::converterParaAnimeResponseDTO);
     }
 
     public Page<Anime> buscarPorPlataforma(String ondeAssistir, Pageable pageable) {
@@ -107,16 +107,16 @@ public class AnimeService {
         return listaNomes;
     }
 
-            public AnimeResponseDTO alterarAnimePorId(AnimeRequestDTO dto, Long id) {
-                Anime anime = buscarPorId(id);
+     public AnimeResponseDTO alterarAnimePorId(AnimeRequestDTO dto, Long id) {
+        Anime anime = buscarPorId(id);
 
-                copiarDadosDoDTO(anime, dto);
+        copiarDadosDoDTO(anime, dto);
 
-                Anime novoAnime = animeRepository.save(anime);
+        Anime novoAnime = animeRepository.save(anime);
 
-                return converterParaAnimeResponseDTO(novoAnime);
+        return converterParaAnimeResponseDTO(novoAnime);
 
-            }
+    }
 
     public Long deletarPorId(Long id) {
         buscarPorId(id);

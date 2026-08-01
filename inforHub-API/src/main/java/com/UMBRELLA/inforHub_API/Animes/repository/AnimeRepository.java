@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.UMBRELLA.inforHub_API.Animes.dto.AnimeResponseDTO;
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import org.springframework.data.jpa.repository.JpaRepository;
 
