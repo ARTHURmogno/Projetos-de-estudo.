@@ -44,7 +44,7 @@ public class ControllerAnime {
     }
 
     @GetMapping("/anime/mostrar")
-    public ResponseEntity<Page<Anime>> mostrarAnimes(
+    public ResponseEntity<Page<AnimeResponseDTO>> mostrarAnimes(
         @PageableDefault(
             page = 0,
             size = 10,
@@ -56,14 +56,14 @@ public class ControllerAnime {
     } 
 
     @GetMapping("/anime/{id}")
-    public ResponseEntity<Anime> mostrarPorId(@PathVariable Long id) {
+    public ResponseEntity<AnimeResponseDTO> mostrarPorId(@PathVariable Long id) {
 
         return ResponseEntity.ok(animeService.buscarPorId(id));
 
     }
 
     @GetMapping("/anime/buscar/{nome}")
-    public ResponseEntity<Page<Anime>> buscarPorNome(@PathVariable String nome, Pageable pageable) {
+    public ResponseEntity<Page<AnimeResponseDTO>> buscarPorNome(@PathVariable String nome, Pageable pageable) {
 
         return ResponseEntity.ok(animeService.buscarPorNome(nome, pageable));
     }
@@ -76,7 +76,7 @@ public class ControllerAnime {
     }
 
     @GetMapping("/anime/Plataforma/{ondeAssistir}")
-    public ResponseEntity<Page<Anime>> buscarPorPlataforma(@PathVariable String ondeAssistir, Pageable pageable) {
+    public ResponseEntity<Page<AnimeResponseDTO>> buscarPorPlataforma(@PathVariable String ondeAssistir, Pageable pageable) {
 
         return ResponseEntity.ok(animeService.buscarPorPlataforma(ondeAssistir, pageable));
     }

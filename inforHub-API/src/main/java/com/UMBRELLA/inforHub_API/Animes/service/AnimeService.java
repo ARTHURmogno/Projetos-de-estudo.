@@ -68,13 +68,23 @@ public class AnimeService {
         return animeRepository.count();
     }
 
-    public Page<Anime> mostrarAnimes(Pageable pageable) {
-        return animeRepository.findAll(pageable);
+    public Page<AnimeResponseDTO> mostrarAnimes(Pageable pageable) {
+        Page<Anime> animeList = animeRepository.findAllByOrderByNomeAsc(pageable);
+
+        return animeList.map(this::converterParaAnimeResponseDTO);
     }
 
-    public Anime buscarPorId(Long id) {
-        return animeRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Nada encontrado."));
+    public AnimeResponseDTO buscarPorId(Long id) {
+        Anime anime = buscarAnimePorId(id);
+
+        return converterParaAnimeResponseDTO(anime);
+    }
+
+    private Anime buscarAnimePorId(Long id) {
+        Anime anime = animeRepository.findById(id).
+        orElseThrow(() -> new ResourceNotFoundException("Nada encontrado."));
+
+        return anime;
     }
 
     public Page<AnimeResponseDTO> buscarPorGenero(String genero, Pageable pageable) {
@@ -87,28 +97,28 @@ public class AnimeService {
         return paginaAnime.map(this::converterParaAnimeResponseDTO);
     }
 
-    public Page<Anime> buscarPorPlataforma(String ondeAssistir, Pageable pageable) {
+    public Page<AnimeResponseDTO> buscarPorPlataforma(String ondeAssistir, Pageable pageable) {
         Page<Anime> lista = animeRepository.findByOndeAssistirContainingIgnoreCaseOrderByNome(ondeAssistir, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Nada encontrado.");
         }
 
-        return lista;
+        return lista.map(this::converterParaAnimeResponseDTO);
     }
 
-    public Page<Anime> buscarPorNome(String nome, Pageable pageable) {
+    public Page<AnimeResponseDTO> buscarPorNome(String nome, Pageable pageable) {
         Page<Anime> listaNomes = animeRepository.findByNomeContainingIgnoreCaseOrderByNomeDesc(nome, pageable);
 
         if (listaNomes.isEmpty()) {
             throw new ResourceNotFoundException("Nenhum registro encontrado para a busca informada.");
         }
 
-        return listaNomes;
+        return listaNomes.map(this::converterParaAnimeResponseDTO);
     }
 
      public AnimeResponseDTO alterarAnimePorId(AnimeRequestDTO dto, Long id) {
-        Anime anime = buscarPorId(id);
+        Anime anime = buscarAnimePorId(id);
 
         copiarDadosDoDTO(anime, dto);
 
