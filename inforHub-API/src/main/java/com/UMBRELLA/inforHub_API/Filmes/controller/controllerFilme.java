@@ -15,8 +15,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 
 import java.util.List;
+
+import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeRequestDTO;
+import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeResponseDTO;
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
+import com.UMBRELLA.inforHub_API.Filmes.repository.FilmeRepository;
 import com.UMBRELLA.inforHub_API.Filmes.service.FilmeService;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class controllerFilme {
@@ -28,9 +34,9 @@ public class controllerFilme {
     }
 
     @PostMapping("/filme")
-    public ResponseEntity<Filme> adicionarFilme(@RequestBody Filme filme) {
+    public ResponseEntity<FilmeResponseDTO> adicionarFilme(@RequestBody @Valid FilmeRequestDTO dto) {
 
-        return ResponseEntity.ok(filmeService.adicionarFilme(filme));
+        return ResponseEntity.ok(filmeService.adicionarFilme(dto));
     
     }
 
@@ -40,7 +46,7 @@ public class controllerFilme {
     }
 
     @GetMapping("/filme/mostrar")
-    public ResponseEntity<Page<Filme>> mostrarFilmes(@PageableDefault(
+    public ResponseEntity<Page<FilmeResponseDTO>> mostrarFilmes(@PageableDefault(
              size = 10,
              sort = "nome",
              direction = Sort.Direction.DESC)
@@ -49,12 +55,12 @@ public class controllerFilme {
     }
 
     @GetMapping("filme/buscar/{nome}")
-    public ResponseEntity<Page<Filme>> buscarPorNome(String nome, Pageable pageable) {
+    public ResponseEntity<Page<FilmeResponseDTO>> buscarPorNome(@PathVariable String nome, Pageable pageable) {
         return ResponseEntity.ok(filmeService.buscarPorNome(nome, pageable));
     }
 
     @GetMapping("/filme/genero/{genero}")
-    public ResponseEntity<Page<Filme>> buscarPorGenero(@PageableDefault(
+    public ResponseEntity<Page<FilmeResponseDTO>> buscarPorGenero(@PageableDefault(
              size = 10,
              sort = "nome",
              direction = Sort.Direction.DESC)
@@ -64,7 +70,7 @@ public class controllerFilme {
     }
 
     @GetMapping("/filme/Plataforma/{ondeAssistir}")
-    public ResponseEntity<Page<Filme>> buscarPorPlataforma(@PageableDefault(
+    public ResponseEntity<Page<FilmeResponseDTO>> buscarPorPlataforma(@PageableDefault(
              size = 10,
              sort = "nome",
              direction = Sort.Direction.DESC)
@@ -74,13 +80,13 @@ public class controllerFilme {
     }
 
     @GetMapping("/filme/{id}")
-    public ResponseEntity<Filme> mostrarPorId(@PathVariable Long id) {
+    public ResponseEntity<FilmeResponseDTO> mostrarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(filmeService.buscarPorId(id));
     }
 
     @PutMapping("/filme/{id}")
-    public ResponseEntity<Filme> atualizar(@RequestBody Filme novoFilme, @PathVariable Long id) {
-        return ResponseEntity.ok(filmeService.alterarPorId(novoFilme, id));
+    public ResponseEntity<FilmeResponseDTO> atualizar(@RequestBody @Valid FilmeRequestDTO dto, @PathVariable Long id) {
+        return ResponseEntity.ok(filmeService.alterarPorId(dto, id));
     }
 
     @DeleteMapping("/filme/{id}")

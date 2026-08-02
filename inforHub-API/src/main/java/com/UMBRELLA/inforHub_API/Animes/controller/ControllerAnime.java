@@ -70,13 +70,21 @@ public class ControllerAnime {
 
     // animes por atributo especifico, busca por: genero e plataforma de streaming.
     @GetMapping("/animes/{genero}")
-    public ResponseEntity<Page<AnimeResponseDTO>> buscarPorGenero(@PathVariable String genero, Pageable pageable) {
+    public ResponseEntity<Page<AnimeResponseDTO>> buscarPorGenero( @PageableDefault(
+            page = 0,
+            size = 10,
+            sort = "nome",
+            direction = Sort.Direction.DESC)@PathVariable String genero, Pageable pageable) {
 
         return ResponseEntity.ok(animeService.buscarPorGenero(genero, pageable));
     }
 
     @GetMapping("/anime/Plataforma/{ondeAssistir}")
-    public ResponseEntity<Page<AnimeResponseDTO>> buscarPorPlataforma(@PathVariable String ondeAssistir, Pageable pageable) {
+    public ResponseEntity<Page<AnimeResponseDTO>> buscarPorPlataforma( @PageableDefault(
+            page = 0,
+            size = 10,
+            sort = "nome",
+            direction = Sort.Direction.DESC)@PathVariable String ondeAssistir, Pageable pageable) {
 
         return ResponseEntity.ok(animeService.buscarPorPlataforma(ondeAssistir, pageable));
     }

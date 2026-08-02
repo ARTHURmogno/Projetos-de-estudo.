@@ -1,21 +1,10 @@
-package com.UMBRELLA.inforHub_API.Filmes.model;
+package com.UMBRELLA.inforHub_API.Filmes.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "Filmes")
-public class Filme {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class FilmeRequestDTO {
 
     @NotBlank(message = "Titulo não pode ser vazio nem nulo.")
     @Size(min = 2, max = 50)
@@ -36,24 +25,19 @@ public class Filme {
     @Size(min = 2, max = 500)
     private String ondeAssistir;
 
-    public Filme() {
+    public FilmeRequestDTO() {
 
     }
 
-    public Filme(Long id, String nome, String sinopse, String genero, int duracao, String ondeAssistir) {
-        this.id = id;
+    public FilmeRequestDTO(String nome, String sinopse, String genero, int duracao, String ondeAssistir) {
         this.nome = nome;
         this.sinopse = sinopse;
         this.genero = genero;
         this.duracao = duracao;
         this.ondeAssistir = ondeAssistir;
-
     }
+
     // getters
-
-    public Long getId() {
-        return id;
-    }
 
     public String getNome() {
         return nome;
@@ -76,10 +60,6 @@ public class Filme {
     }
 
     // setters
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public void setNome(String nome) {
         this.nome = nome;

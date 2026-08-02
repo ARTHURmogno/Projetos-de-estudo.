@@ -1,5 +1,6 @@
 package com.UMBRELLA.inforHub_API.Filmes.service;
 
+import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
 import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeRequestDTO;
+import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeResponseDTO;
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
 import com.UMBRELLA.inforHub_API.Filmes.repository.FilmeRepository;
 
@@ -20,12 +23,43 @@ public class FilmeService {
         this.filmeRepository = filmeRepository;
     }
 
-    public Filme adicionarFilme(Filme novoFilme) {
-        if (filmeRepository.existsByTitulo(novoFilme.getTitulo())) {
+    private FilmeResponseDTO converterFilmeParaFilmeResponseDTO(Filme filme) {
+        FilmeResponseDTO response = new FilmeResponseDTO();
+
+        response.setId(filme.getId());
+        response.setNome(filme.getNome());
+        response.setSinopse(filme.getSinopse());
+        response.setGenero(filme.getGenero());
+        response.setDuracao(filme.getDuracao());
+        response.setOndeAssistir(filme.getOndeAssistir());
+
+        return response;
+
+    }
+
+    private void copiarDadosDoDTO(Filme filme, FilmeRequestDTO dto) {
+
+        filme.setNome(dto.getNome());
+        filme.setSinopse(dto.getSinopse());
+        filme.setGenero(dto.getGenero());
+        filme.setDuracao(dto.getDuracao());
+        filme.setOndeAssistir(dto.getOndeAssistir());
+
+    }
+
+    public FilmeResponseDTO adicionarFilme(FilmeRequestDTO dto) {
+        Filme filme = new Filme();
+
+        copiarDadosDoDTO(filme, dto);
+
+        if (filmeRepository.existsByTitulo(filme.getNome())) {
             throw new IllegalArgumentException("Filme já cadastrado.");
         }
 
-        return filmeRepository.save(novoFilme);
+        Filme novoFilme = filmeRepository.save(filme);
+
+        return converterFilmeParaFilmeResponseDTO(novoFilme);
+      
     }
 
     public Long todosOsFilmes() {
@@ -34,55 +68,69 @@ public class FilmeService {
         return quantidade;
     }
 
-    public Page<Filme> mostrarFilmes(Pageable pageable) {
-        return filmeRepository.findAll(pageable);
+    public Page<FilmeResponseDTO> mostrarFilmes(Pageable pageable) {
+        Page<Filme> listaDeFilmes = filmeRepository.findAll(pageable);
+
+        if (listaDeFilmes.isEmpty()) {
+            throw new IllegalArgumentException("Nada encontrado.");
+        }
+
+        return listaDeFilmes.map(this::converterFilmeParaFilmeResponseDTO);
     }
 
-    public Page<Filme> buscarPorNome(String nome, Pageable pageable) {
-        return filmeRepository.findByNomeContainirgIgnoreCaseOrderByNome(nome, pageable);
+    public Page<FilmeResponseDTO> buscarPorNome(String nome, Pageable pageable) {
+        Page<Filme> listaDeNome = filmeRepository.findByNomeContainingIgnoreCaseOrderByNome(nome, pageable);
+
+        if (listaDeNome.isEmpty()) {
+            throw new IllegalArgumentException("Nada encontrado.");
+        }
+
+        return listaDeNome.map(this::converterFilmeParaFilmeResponseDTO);
     }
 
-    public Page<Filme> buscarPorGenero(String genero, Pageable pageable) {
+    public Page<FilmeResponseDTO> buscarPorGenero(String genero, Pageable pageable) {
         Page<Filme> lista = filmeRepository.findByGeneroContainingIgnoreCaseOrderByNomeDesc(genero, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Buscar por Gênero, nada encontrado.");
         }
 
-        return lista;
+        return lista.map(this::converterFilmeParaFilmeResponseDTO);
     }
 
-    public Page<Filme> buscarPorPlataforma(String ondeAssistri, Pageable pageable) {
+    public Page<FilmeResponseDTO> buscarPorPlataforma(String ondeAssistri, Pageable pageable) {
         Page<Filme> lista = filmeRepository.findByOndeAssistirContainingIgnoreCaseOrderByNomeDesc(ondeAssistri, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Busca por Plataforma, nada encontrado.");
         }
 
-        return lista;
+        return lista.map(this::converterFilmeParaFilmeResponseDTO);
     }
 
-    public Filme buscarPorId(Long id) {
+    public FilmeResponseDTO buscarPorId(Long id) {
+        Filme filme = buscarFilmePorId(id);
+
+        return converterFilmeParaFilmeResponseDTO(filme);
+    }
+
+    private Filme buscarFilmePorId(Long id) {
         return filmeRepository.findById(id) 
         .orElseThrow(() -> new IllegalArgumentException("Nada encontrado." + id));
     }
 
-    public Filme alterarPorId(Filme novoFilme, Long id) {
-        Filme filme = filmeRepository.findById(id) 
-        .orElseThrow(() -> new IllegalArgumentException("Nada encontrado." + id));
+    public FilmeResponseDTO alterarPorId(FilmeRequestDTO dto, Long id) {
+        Filme filme = buscarFilmePorId(id);
 
-                filme.setTitulo(novoFilme.getTitulo());
-                filme.setSinopse(novoFilme.getSinopse());
-                filme.setGenero(novoFilme.getGenero());
-                filme.setDuracao(novoFilme.getDuracao());
-                filme.setOndeAssistir(novoFilme.getOndeAssistir());
-            
-        filmeRepository.save(filme);
-        return filme;
+        copiarDadosDoDTO(filme, dto);
+
+        Filme novoFilme = filmeRepository.save(filme);
+
+        return converterFilmeParaFilmeResponseDTO(novoFilme);
     }
 
     public Long deletarPorId(Long id) {
-        buscarPorId(id);
+        buscarFilmePorId(id);
 
         filmeRepository.deleteById(id);
         return id;
