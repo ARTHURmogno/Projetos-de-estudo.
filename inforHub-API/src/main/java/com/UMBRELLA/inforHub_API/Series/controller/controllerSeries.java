@@ -4,8 +4,12 @@ import com.UMBRELLA.inforHub_API.Series.repository.SerieRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.UMBRELLA.inforHub_API.Series.dto.SerieRequestDTO;
+import com.UMBRELLA.inforHub_API.Series.dto.SerieResponseDTO;
 import com.UMBRELLA.inforHub_API.Series.model.Serie;
 import com.UMBRELLA.inforHub_API.Series.service.SerieService;
+
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,8 +35,8 @@ public class controllerSeries {
 
     
     @PostMapping("/serie/save")
-    public ResponseEntity<Serie> adicionarSerie(@RequestBody Serie serie) {
-        return ResponseEntity.ok(serieService.adicionarSerie(serie));
+    public ResponseEntity<SerieResponseDTO> adicionarSerie(@RequestBody @Valid SerieRequestDTO dto) {
+        return ResponseEntity.ok(serieService.adicionarSerie(dto));
 
     }
 
@@ -43,14 +47,13 @@ public class controllerSeries {
 
     // buscar uma serie especifica pelo seu id;
     @GetMapping("/Serie/buscar/{id}")
-    public ResponseEntity<Serie> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<SerieResponseDTO> buscarPorId(@PathVariable Long id) {
 
         return ResponseEntity.ok(serieService.buscarPorId(id));
-
     }
 
-    @GetMapping("/serie/buscar/{nome}")
-    public ResponseEntity<Page<Serie>> buscarPorNome(@PageableDefault(
+    @GetMapping("/serie/buscarPorNome/{nome}")
+    public ResponseEntity<Page<SerieResponseDTO>> buscarPorNome(@PageableDefault(
              size = 10,
              sort = "nome",
              direction = Sort.Direction.DESC)
@@ -59,8 +62,8 @@ public class controllerSeries {
     }
 
     // busca por informacoes especifica, pode-se por: lancamento, genero e plataforma;
-    @GetMapping("/serie/{genero}")
-    public ResponseEntity<Page<Serie>> buscarPorGenero(@PageableDefault(
+    @GetMapping("/serie/genero/{genero}")
+    public ResponseEntity<Page<SerieResponseDTO>> buscarPorGenero(@PageableDefault(
              size = 10,
              sort = "nome",
              direction = Sort.Direction.DESC)
@@ -68,8 +71,8 @@ public class controllerSeries {
         return ResponseEntity.ok(serieService.buscarPorGenero(genero, pageable));
     }
 
-    @GetMapping("/serie/{lancamento}")
-    public ResponseEntity<Page<Serie>> buscarPorLancamento(@PageableDefault(
+    @GetMapping("/serie/lancamento/{lancamento}")
+    public ResponseEntity<Page<SerieResponseDTO>> buscarPorLancamento(@PageableDefault(
              size = 10,
              sort = "nome",
              direction = Sort.Direction.DESC)
@@ -77,8 +80,8 @@ public class controllerSeries {
         return ResponseEntity.ok(serieService.buscarPorLancamento(lancamento, pageable));
     }
 
-    @GetMapping("/serie/{plataforma}")
-    public ResponseEntity<Page<Serie>> buscaPorPlataforma(@PageableDefault(
+    @GetMapping("/serie/plataforma/{ondeAssistir}")
+    public ResponseEntity<Page<SerieResponseDTO>> buscaPorPlataforma(@PageableDefault(
              size = 10,
              sort = "nome",
              direction = Sort.Direction.DESC)
@@ -87,8 +90,8 @@ public class controllerSeries {
     }
 
     @PutMapping("/serie/update/{id}")
-    public ResponseEntity<Serie> atualizarPorId(@PathVariable Long id, @RequestBody Serie novaSerie) {
-        return ResponseEntity.ok(serieService.alterarSerie(novaSerie, id));
+    public ResponseEntity<SerieResponseDTO> atualizarPorId(@PathVariable Long id, @RequestBody @Valid SerieRequestDTO dto) {
+        return ResponseEntity.ok(serieService.alterarSerie(dto, id));
 
     }
 

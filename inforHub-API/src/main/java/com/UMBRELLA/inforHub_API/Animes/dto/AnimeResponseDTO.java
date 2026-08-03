@@ -90,4 +90,5 @@ public class AnimeResponseDTO {
         this.temporada = temporada;
     }
 
+
 }

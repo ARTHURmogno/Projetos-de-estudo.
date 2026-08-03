@@ -1,23 +1,12 @@
-package com.UMBRELLA.inforHub_API.Series.model;
+package com.UMBRELLA.inforHub_API.Series.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "Series")
-public class Serie {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class SerieRequestDTO {
 
     @NotBlank(message = "Nome não pose ser nulo nem vazio.")
     @Size(min = 2, max = 50)
@@ -42,12 +31,11 @@ public class Serie {
     @Size(min = 2, max = 20)
     private String ondeAssistir;
 
-    public Serie() {
+    public SerieRequestDTO() {
 
     }
 
-    public Serie(Long id, String nome, String sinopse, String genero, int temporada, int episodios, int lancamento, String ondeAssistir) {
-        this.id = id;
+    public SerieRequestDTO(String nome, String sinopse, String genero, int temporada, int episodios, int lancamento, String ondeAssistir) {
         this.nome = nome;
         this.sinopse = sinopse;
         this.genero = genero;
@@ -58,10 +46,6 @@ public class Serie {
     }
 
     // getters
-
-    public Long getId() {
-        return id;
-    }
 
     public String getNome() {
         return nome;
@@ -92,10 +76,6 @@ public class Serie {
     }
 
     // setters
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public void setNome(String nome) {
         this.nome = nome;

@@ -8,7 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
 
+import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
+import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
+import com.UMBRELLA.inforHub_API.Series.dto.SerieRequestDTO;
+import com.UMBRELLA.inforHub_API.Series.dto.SerieResponseDTO;
 import com.UMBRELLA.inforHub_API.Series.model.Serie;
 import com.UMBRELLA.inforHub_API.Series.repository.SerieRepository;
 
@@ -21,13 +25,45 @@ public class SerieService {
         this.serieRepository = serieRepository;
     }
 
-    public Serie adicionarSerie(Serie novaSerie) {
+    private SerieResponseDTO converterParaSerieResponseDTO(Serie serie) {
+        SerieResponseDTO response = new SerieResponseDTO();
 
-            if (serieRepository.existsByNome(novaSerie.getNome())) {
+        response.setId(serie.getId());
+        response.setNome(serie.getNome());
+        response.setSinopse(serie.getSinopse());
+        response.setGenero(serie.getGenero());
+        response.setTemporada(serie.getTemporada());
+        response.setEpisodios(serie.getEpisodios());
+        response.setLancamento(serie.getLancamento());
+        response.setOndeAssistir(serie.getOndeAssistir());
+
+        return response;
+    }
+
+    private void copiarDadosDoDTO(Serie serie, SerieRequestDTO dto) {
+
+        serie.setNome(dto.getNome());
+         serie.setSinopse(dto.getSinopse());
+          serie.setGenero(dto.getGenero());
+           serie.setTemporada(dto.getTemporada());
+            serie.setEpisodios(dto.getEpisodios());
+             serie.setLancamento(dto.getLancamento());
+              serie.setOndeAssistir(dto.getOndeAssistir());
+    }
+ 
+
+    public SerieResponseDTO adicionarSerie(SerieRequestDTO dto) {
+        Serie serie = new Serie();
+
+        copiarDadosDoDTO(serie, dto);
+
+            if (serieRepository.existsByNome(serie.getNome())) {
                 throw new IllegalArgumentException("Serie já cadastrada.");
             }
 
-        return serieRepository.save(novaSerie);
+            Serie novaSerie = serieRepository.save(serie);
+
+            return converterParaSerieResponseDTO(novaSerie);
     }
 
     public Long contarSeries() {
@@ -36,67 +72,67 @@ public class SerieService {
         return quantidade;
     }
 
-    public Serie buscarPorId(Long id) {
-        return serieRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Id não encontrado: " + id));  
+    public SerieResponseDTO buscarPorId(Long id) {
+        Serie serie = buscarSeriePorId(id);
 
+        return converterParaSerieResponseDTO(serie);
     }
 
-    public Page<Serie> buscarPorNome(String nome, Pageable pageable) {
+    private Serie buscarSeriePorId(Long id) {
+        Serie serie = serieRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Id não encontrado: " + id));
+
+        return serie;
+    }
+
+    public Page<SerieResponseDTO> buscarPorNome(String nome, Pageable pageable) {
         Page<Serie> lista = serieRepository.findByNomeContainingIgnoreCaseOrderByNomeDesc(nome, pageable);
 
         if (lista.isEmpty()) {
             throw new ResourceNotFoundException("Nenhum registro encontrado para a busca informada.");
         }
 
-        return serieRepository.findByNomeContainingIgnoreCaseOrderByNomeDesc(nome, pageable);
-    }
+        return lista.map(this::converterParaSerieResponseDTO);
+    }    
 
-    public Page<Serie> buscarPorGenero(String genero, Pageable pageable) {
+    public Page<SerieResponseDTO> buscarPorGenero(String genero, Pageable pageable) {
         Page<Serie> lista = serieRepository.findByGeneroContainingIgnoreCaseOrderByNomeDesc(genero, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Gênero não encontrado.");
         }
 
-        return lista;
+        return lista.map(this::converterParaSerieResponseDTO);
     }
 
-    public Page<Serie> buscarPorLancamento(String lancamento, Pageable pageable) {
+    public Page<SerieResponseDTO> buscarPorLancamento(String lancamento, Pageable pageable) {
         Page<Serie> lista = serieRepository.findByLancamentoContainingIgnoreCaseOrderByNomeDesc(lancamento, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Lançâmento não encontrado.");
         }
 
-        return lista;
+        return lista.map(this::converterParaSerieResponseDTO);
     }
 
-    public Page<Serie> buscarPorPlataforma(String ondeAssistir, Pageable pageable) {
+    public Page<SerieResponseDTO> buscarPorPlataforma(String ondeAssistir, Pageable pageable) {
         Page<Serie> lista = serieRepository.findByOndeAssistirContainingIgnoreCaseOrderByNomeDesc(ondeAssistir, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Busca por plataforma, nada encontrado.");
         }
 
-        return lista;
+        return lista.map(this::converterParaSerieResponseDTO);
     }
 
-     public Serie alterarSerie(Serie serieAtualizada, Long id) {
-        Serie serie = serieRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("id não encontrado."));
+     public SerieResponseDTO alterarSerie(SerieRequestDTO dto, Long id) {
+        Serie serie = buscarSeriePorId(id);
 
-                serie.setNome(serieAtualizada.getNome());
-                serie.setSinopse(serieAtualizada.getSinopse());
-                serie.setGenero(serieAtualizada.getGenero());
-                serie.setTemporada(serieAtualizada.getTemporada());
-                serie.setEpisodios(serieAtualizada.getEpisodios());
-                serie.setOndeAssistir(serieAtualizada.getOndeAssistir());
+        copiarDadosDoDTO(serie, dto);
 
-                serieRepository.save(serieAtualizada);
+        Serie novaSerie = serieRepository.save(serie);
 
-            return serie;
-
+        return converterParaSerieResponseDTO(novaSerie);
     }
 
     

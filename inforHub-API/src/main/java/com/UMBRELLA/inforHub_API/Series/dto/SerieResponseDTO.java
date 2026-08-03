@@ -1,52 +1,21 @@
-package com.UMBRELLA.inforHub_API.Series.model;
+package com.UMBRELLA.inforHub_API.Series.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+public class SerieResponseDTO {
 
-@Entity
-@Table(name = "Series")
-public class Serie {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank(message = "Nome não pose ser nulo nem vazio.")
-    @Size(min = 2, max = 50)
     private String nome;
-    @NotBlank(message = "Sinopse não pose ser nulo nem vazio.")
-    @Size(min = 20, max = 500)
     private String sinopse;
-    @NotBlank(message = "Gênero não pose ser nulo nem vazio.")
-    @Size(min = 2, max = 500)
     private String genero;
-    @Positive(message = "Temporada não pode ser negativo nem 0.")
-    @Min(1)
     private int temporada;
-    @Positive(message = "Episódio não pose ser negativo nem 0.")
-    @Min(1)
     private int episodios;
-    @Positive(message = "Lançamento não pose ser nulo nem vazio.")
-    @Min(1900)
-    @Max(2100)
     private int lancamento;
-    @NotBlank(message = "Onde Assistir não pode ser nulo nem vazio.")
-    @Size(min = 2, max = 20)
     private String ondeAssistir;
 
-    public Serie() {
+    public SerieResponseDTO() {
 
     }
 
-    public Serie(Long id, String nome, String sinopse, String genero, int temporada, int episodios, int lancamento, String ondeAssistir) {
+    public SerieResponseDTO(Long id, String nome, String sinopse, String genero, int temporada, int episodios, int lancamento, String ondeAssistir) {
         this.id = id;
         this.nome = nome;
         this.sinopse = sinopse;
@@ -126,3 +95,4 @@ public class Serie {
     }
 
 }
+
