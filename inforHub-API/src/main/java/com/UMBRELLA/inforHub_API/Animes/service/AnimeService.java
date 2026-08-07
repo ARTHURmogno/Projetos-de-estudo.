@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeResponseDTO;
-
+import com.UMBRELLA.inforHub_API.Animes.mapper.AnimeMapper;
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
 import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
@@ -17,9 +17,11 @@ import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
 public class AnimeService {
 
     private final AnimeRepository animeRepository;
+    private final AnimeMapper animeMapper;
 
-    public AnimeService(AnimeRepository animeRepository) {
+    public AnimeService(AnimeRepository animeRepository, AnimeMapper animeMapper) {
         this.animeRepository = animeRepository;
+        this.animeMapper = animeMapper;
     }
 
     private AnimeResponseDTO converterParaAnimeResponseDTO(Anime anime) {

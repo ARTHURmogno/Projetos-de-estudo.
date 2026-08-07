@@ -3,9 +3,13 @@ package com.UMBRELLA.inforHub_API.Animes.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
+@Setter
+@Getter
 public class AnimeRequestDTO {
 
     @NotBlank
@@ -39,62 +43,6 @@ public class AnimeRequestDTO {
         this.ondeAssistir = ondeAssistir;
         this.anoDeLancamento = anoDeLancamento;
         this.episodios = episodios;
-        this.temporada = temporada;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-     public String getGenero() {
-        return genero;
-    }
-
-     public String getSinopse() {
-        return sinopse;
-    }
-
-     public String getOndeAssistir() {
-        return ondeAssistir;
-    }
-
-     public int getAnoDeLancamento() {
-        return anoDeLancamento;
-    }
-
-     public int getEpisodios() {
-        return episodios;
-    }
-
-    public int getTemporada() {
-        return temporada;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
-    public void setSinopse(String sinopse) {
-        this.sinopse = sinopse;
-    }
-
-    public void setOndeAssistir(String ondeAssistir) {
-        this.ondeAssistir = ondeAssistir;
-    }
-
-    public void setAnoDeLancamento(int anoDeLancamento) {
-        this.anoDeLancamento = anoDeLancamento;
-    }
-
-    public void setEpisodios(int episodios) {
-        this.episodios = episodios;
-    }
-
-    public void setTemporada(int temporada) {
         this.temporada = temporada;
     }
 

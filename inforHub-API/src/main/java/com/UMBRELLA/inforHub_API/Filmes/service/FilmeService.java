@@ -52,7 +52,7 @@ public class FilmeService {
 
         copiarDadosDoDTO(filme, dto);
 
-        if (filmeRepository.existsByTitulo(filme.getNome())) {
+        if (filmeRepository.existsByNome(filme.getNome())) {
             throw new IllegalArgumentException("Filme já cadastrado.");
         }
 

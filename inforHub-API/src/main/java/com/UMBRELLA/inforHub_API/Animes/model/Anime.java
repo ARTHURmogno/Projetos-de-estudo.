@@ -9,11 +9,15 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
 
 @Entity
 @Table(name = "Animes")
+@Setter
+@Getter
 public class Anime{
 
     @Id
@@ -60,73 +64,4 @@ public class Anime{
         this.temporada = temporada;
     }
 
-    // getters
-
-    
-    public Long getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-    
-    public String getGenero() {
-        return genero;
-    }
-
-    public String getSinopse() {
-        return sinopse;
-    }
-
-    public String getOndeAssistir() {
-        return ondeAssistir;
-    }
-
-    public int getAnoDeLancamento() {
-        return anoDeLancamento;
-    }
-
-    public int getEpisodios() {
-        return episodios;
-    }
-
-    public int getTemporada() {
-        return temporada;
-    }
-
-    // setters
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
-    public void setSinopse(String sinopse) {
-        this.sinopse = sinopse;
-    }
-
-    public void setOndeAssistir(String ondeAssistir) {
-        this.ondeAssistir = ondeAssistir;
-    }
-
-    public void setAnoDeLancamento(int anoDeLancamento) {
-        this.anoDeLancamento = anoDeLancamento;
-    }
-
-    public void setEpisodios(int episodios) {
-        this.episodios = episodios;
-    }
-
-    public void setTemporada(int temporada) {
-        this.temporada = temporada;
-    }
 }
-
