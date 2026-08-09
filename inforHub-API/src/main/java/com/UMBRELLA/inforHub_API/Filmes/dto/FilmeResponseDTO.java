@@ -1,5 +1,10 @@
 package com.UMBRELLA.inforHub_API.Filmes.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class FilmeResponseDTO {
 
     private Long id;
@@ -22,57 +27,4 @@ public class FilmeResponseDTO {
         this.ondeAssistir = ondeAssistir;
     }
 
-    // getters
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getSinopse() {
-        return sinopse;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public int getDuracao() {
-        return duracao;
-    }
-
-    public String getOndeAssistir() {
-        return ondeAssistir;
-    }
-
-    // setters
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setSinopse(String sinopse) {
-        this.sinopse = sinopse;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
-    public void setDuracao(int duracao) {
-        this.duracao = duracao;
-    }
-
-    public void setOndeAssistir(String ondeAssistir) {
-        this.ondeAssistir = ondeAssistir;
-    }
-
-    
 }

@@ -8,9 +8,13 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "Filmes")
+@Setter
+@Getter
 public class Filme {
 
     @Id
@@ -49,57 +53,5 @@ public class Filme {
         this.ondeAssistir = ondeAssistir;
 
     }
-    // getters
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getSinopse() {
-        return sinopse;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public int getDuracao() {
-        return duracao;
-    }
-
-    public String getOndeAssistir() {
-        return ondeAssistir;
-    }
-
-    // setters
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setSinopse(String sinopse) {
-        this.sinopse = sinopse;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
-    public void setDuracao(int duracao) {
-        this.duracao = duracao;
-    }
-
-    public void setOndeAssistir(String ondeAssistir) {
-        this.ondeAssistir = ondeAssistir;
-    }
-
-    
 }

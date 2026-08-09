@@ -4,7 +4,6 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeRequestDTO;
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
 import org.springframework.data.jpa.repository.JpaRepository;
 

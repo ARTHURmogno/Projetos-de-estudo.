@@ -24,38 +24,9 @@ public class AnimeService {
         this.animeMapper = animeMapper;
     }
 
-    private AnimeResponseDTO converterParaAnimeResponseDTO(Anime anime) {
-         AnimeResponseDTO response = new AnimeResponseDTO();
-
-         response.setId(anime.getId());
-         response.setNome(anime.getNome());
-         response.setGenero(anime.getGenero());
-         response.setSinopse(anime.getSinopse());
-         response.setOndeAssistir(anime.getOndeAssistir());
-         response.setAnoDeLancamento(anime.getAnoDeLancamento());
-         response.setEpisodios(anime.getEpisodios());
-         response.setTemporada(anime.getTemporada());
-
-        return response;
-
-    }
-
-    private void copiarDadosDoDTO(Anime anime, AnimeRequestDTO dto) {
-
-                anime.setNome(dto.getNome());
-                anime.setGenero(dto.getGenero());
-                anime.setSinopse(dto.getSinopse());
-                anime.setOndeAssistir(dto.getOndeAssistir());
-                anime.setAnoDeLancamento(dto.getAnoDeLancamento());
-                anime.setEpisodios(dto.getEpisodios());
-                anime.setTemporada(dto.getTemporada());
-
-    }
 
     public AnimeResponseDTO adicionarAnime(AnimeRequestDTO dto) {
-        Anime anime = new Anime();
-
-        copiarDadosDoDTO(anime, dto);
+       Anime anime = animeMapper.toEntity(dto);
 
         if (animeRepository.existsByNome(anime.getNome())) {
             throw new IllegalArgumentException("Anime já cadastrado.");
@@ -63,7 +34,7 @@ public class AnimeService {
 
         Anime novoAnime = animeRepository.save(anime);
 
-        return converterParaAnimeResponseDTO(novoAnime);
+        return animeMapper.toResponseDTO(novoAnime);
     }
 
     public Long todosAnime() {
@@ -73,20 +44,18 @@ public class AnimeService {
     public Page<AnimeResponseDTO> mostrarAnimes(Pageable pageable) {
         Page<Anime> animeList = animeRepository.findAllByOrderByNomeAsc(pageable);
 
-        return animeList.map(this::converterParaAnimeResponseDTO);
+        return animeList.map(animeMapper::toResponseDTO);
     }
 
     public AnimeResponseDTO buscarPorId(Long id) {
         Anime anime = buscarAnimePorId(id);
 
-        return converterParaAnimeResponseDTO(anime);
+        return animeMapper.toResponseDTO(anime);
     }
 
     private Anime buscarAnimePorId(Long id) {
-        Anime anime = animeRepository.findById(id).
+        return animeRepository.findById(id).
         orElseThrow(() -> new ResourceNotFoundException("Nada encontrado."));
-
-        return anime;
     }
 
     public Page<AnimeResponseDTO> buscarPorGenero(String genero, Pageable pageable) {
@@ -96,7 +65,7 @@ public class AnimeService {
             throw new IllegalArgumentException("Nada encontrado.");
         }
 
-        return paginaAnime.map(this::converterParaAnimeResponseDTO);
+        return paginaAnime.map(animeMapper::toResponseDTO);
     }
 
     public Page<AnimeResponseDTO> buscarPorPlataforma(String ondeAssistir, Pageable pageable) {
@@ -106,7 +75,7 @@ public class AnimeService {
             throw new IllegalArgumentException("Nada encontrado.");
         }
 
-        return lista.map(this::converterParaAnimeResponseDTO);
+        return lista.map(animeMapper::toResponseDTO);
     }
 
     public Page<AnimeResponseDTO> buscarPorNome(String nome, Pageable pageable) {
@@ -116,22 +85,23 @@ public class AnimeService {
             throw new ResourceNotFoundException("Nenhum registro encontrado para a busca informada.");
         }
 
-        return listaNomes.map(this::converterParaAnimeResponseDTO);
+        return listaNomes.map(animeMapper::toResponseDTO);
     }
 
      public AnimeResponseDTO alterarAnimePorId(AnimeRequestDTO dto, Long id) {
         Anime anime = buscarAnimePorId(id);
 
-        copiarDadosDoDTO(anime, dto);
+        //copiarDadosDoDTO(anime, dto);
+        animeMapper.atualizarAnime(dto, anime);
 
-        Anime novoAnime = animeRepository.save(anime);
+        Anime animeAtualizado = animeRepository.save(anime);
 
-        return converterParaAnimeResponseDTO(novoAnime);
+        return animeMapper.toResponseDTO(animeAtualizado);
 
     }
 
     public Long deletarPorId(Long id) {
-        buscarPorId(id);
+        buscarAnimePorId(id);
 
         animeRepository.deleteById(id);
         return id;

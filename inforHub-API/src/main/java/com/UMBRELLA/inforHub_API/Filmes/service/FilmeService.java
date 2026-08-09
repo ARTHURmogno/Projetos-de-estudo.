@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeRequestDTO;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeResponseDTO;
+import com.UMBRELLA.inforHub_API.Filmes.mapper.FilmeMapper;
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
 import com.UMBRELLA.inforHub_API.Filmes.repository.FilmeRepository;
 
@@ -18,39 +19,15 @@ import com.UMBRELLA.inforHub_API.Filmes.repository.FilmeRepository;
 public class FilmeService {
 
     private final FilmeRepository filmeRepository;
+    private final FilmeMapper filmeMapper;
 
-    public FilmeService(FilmeRepository filmeRepository) {
+    public FilmeService(FilmeRepository filmeRepository, FilmeMapper filmeMapper) {
         this.filmeRepository = filmeRepository;
-    }
-
-    private FilmeResponseDTO converterFilmeParaFilmeResponseDTO(Filme filme) {
-        FilmeResponseDTO response = new FilmeResponseDTO();
-
-        response.setId(filme.getId());
-        response.setNome(filme.getNome());
-        response.setSinopse(filme.getSinopse());
-        response.setGenero(filme.getGenero());
-        response.setDuracao(filme.getDuracao());
-        response.setOndeAssistir(filme.getOndeAssistir());
-
-        return response;
-
-    }
-
-    private void copiarDadosDoDTO(Filme filme, FilmeRequestDTO dto) {
-
-        filme.setNome(dto.getNome());
-        filme.setSinopse(dto.getSinopse());
-        filme.setGenero(dto.getGenero());
-        filme.setDuracao(dto.getDuracao());
-        filme.setOndeAssistir(dto.getOndeAssistir());
-
+        this.filmeMapper = filmeMapper;
     }
 
     public FilmeResponseDTO adicionarFilme(FilmeRequestDTO dto) {
-        Filme filme = new Filme();
-
-        copiarDadosDoDTO(filme, dto);
+        Filme filme = filmeMapper.toEntity(dto);
 
         if (filmeRepository.existsByNome(filme.getNome())) {
             throw new IllegalArgumentException("Filme já cadastrado.");
@@ -58,7 +35,7 @@ public class FilmeService {
 
         Filme novoFilme = filmeRepository.save(filme);
 
-        return converterFilmeParaFilmeResponseDTO(novoFilme);
+        return filmeMapper.toResponseDTO(novoFilme);
       
     }
 
@@ -75,7 +52,7 @@ public class FilmeService {
             throw new IllegalArgumentException("Nada encontrado.");
         }
 
-        return listaDeFilmes.map(this::converterFilmeParaFilmeResponseDTO);
+        return listaDeFilmes.map(filmeMapper::toResponseDTO);
     }
 
     public Page<FilmeResponseDTO> buscarPorNome(String nome, Pageable pageable) {
@@ -85,7 +62,7 @@ public class FilmeService {
             throw new IllegalArgumentException("Nada encontrado.");
         }
 
-        return listaDeNome.map(this::converterFilmeParaFilmeResponseDTO);
+        return listaDeNome.map(filmeMapper::toResponseDTO);
     }
 
     public Page<FilmeResponseDTO> buscarPorGenero(String genero, Pageable pageable) {
@@ -95,7 +72,7 @@ public class FilmeService {
             throw new IllegalArgumentException("Buscar por Gênero, nada encontrado.");
         }
 
-        return lista.map(this::converterFilmeParaFilmeResponseDTO);
+        return lista.map(filmeMapper::toResponseDTO);
     }
 
     public Page<FilmeResponseDTO> buscarPorPlataforma(String ondeAssistri, Pageable pageable) {
@@ -105,13 +82,13 @@ public class FilmeService {
             throw new IllegalArgumentException("Busca por Plataforma, nada encontrado.");
         }
 
-        return lista.map(this::converterFilmeParaFilmeResponseDTO);
+        return lista.map(filmeMapper::toResponseDTO);
     }
 
     public FilmeResponseDTO buscarPorId(Long id) {
         Filme filme = buscarFilmePorId(id);
 
-        return converterFilmeParaFilmeResponseDTO(filme);
+        return filmeMapper.toResponseDTO(filme);
     }
 
     private Filme buscarFilmePorId(Long id) {
@@ -122,11 +99,11 @@ public class FilmeService {
     public FilmeResponseDTO alterarPorId(FilmeRequestDTO dto, Long id) {
         Filme filme = buscarFilmePorId(id);
 
-        copiarDadosDoDTO(filme, dto);
+        filmeMapper.toEntity(dto);
 
-        Filme novoFilme = filmeRepository.save(filme);
+        Filme filmeAtualizar = filmeRepository.save(filme);
 
-        return converterFilmeParaFilmeResponseDTO(novoFilme);
+        return filmeMapper.toResponseDTO(filmeAtualizar);
     }
 
     public Long deletarPorId(Long id) {

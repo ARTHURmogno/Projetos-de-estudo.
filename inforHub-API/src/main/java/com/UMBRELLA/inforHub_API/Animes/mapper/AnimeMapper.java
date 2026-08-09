@@ -1,6 +1,7 @@
 package com.UMBRELLA.inforHub_API.Animes.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeResponseDTO;
@@ -12,5 +13,7 @@ public interface AnimeMapper {
     Anime toEntity(AnimeRequestDTO dto);
 
     AnimeResponseDTO toResponseDTO(Anime anime);
+
+    void atualizarAnime(AnimeRequestDTO dto, @MappingTarget Anime anime);
     
 }
