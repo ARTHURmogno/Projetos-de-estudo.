@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeResponseDTO;
+import com.UMBRELLA.inforHub_API.Animes.dto.AnimeUpdateDTO;
 import com.UMBRELLA.inforHub_API.Animes.mapper.AnimeMapper;
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
@@ -88,7 +89,7 @@ public class AnimeService {
         return listaNomes.map(animeMapper::toResponseDTO);
     }
 
-     public AnimeResponseDTO alterarAnimePorId(AnimeRequestDTO dto, Long id) {
+     public AnimeResponseDTO alterarAnimePorId(AnimeUpdateDTO dto, Long id) {
         Anime anime = buscarAnimePorId(id);
 
         //copiarDadosDoDTO(anime, dto);

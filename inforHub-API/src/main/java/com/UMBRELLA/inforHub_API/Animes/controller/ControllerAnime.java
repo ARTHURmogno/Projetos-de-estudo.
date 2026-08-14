@@ -9,18 +9,17 @@ import org.springframework.data.web.PageableDefault;
 
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeResponseDTO;
+import com.UMBRELLA.inforHub_API.Animes.dto.AnimeUpdateDTO;
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.service.AnimeService;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
 
 @RestController
 public class ControllerAnime {
@@ -79,6 +78,8 @@ public class ControllerAnime {
         return ResponseEntity.ok(animeService.buscarPorGenero(genero, pageable));
     }
 
+    
+           
     @GetMapping("/anime/Plataforma/{ondeAssistir}")
     public ResponseEntity<Page<AnimeResponseDTO>> buscarPorPlataforma( @PageableDefault(
             page = 0,
@@ -89,8 +90,8 @@ public class ControllerAnime {
         return ResponseEntity.ok(animeService.buscarPorPlataforma(ondeAssistir, pageable));
     }
 
-    @PutMapping("/anime/{id}")
-    public ResponseEntity<AnimeResponseDTO> alterarAnime(@RequestBody @Valid AnimeRequestDTO dto, @PathVariable Long id) {
+    @PatchMapping("/anime/atualizar/{id}")
+    public ResponseEntity<AnimeResponseDTO> alterarAnimePorId(@RequestBody AnimeUpdateDTO dto, @PathVariable Long id) {
 
         return ResponseEntity.ok(animeService.alterarAnimePorId(dto, id));
     }
