@@ -62,7 +62,11 @@ public class ControllerAnime {
     }
 
     @GetMapping("/anime/buscar/{nome}")
-    public ResponseEntity<Page<AnimeResponseDTO>> buscarPorNome(@PathVariable String nome, Pageable pageable) {
+    public ResponseEntity<Page<AnimeResponseDTO>> buscarPorNome(@PageableDefault (
+        page = 0, 
+        size = 10, 
+        sort = "nome", 
+        direction = Sort.Direction.DESC)@PathVariable String nome, Pageable pageable) {
 
         return ResponseEntity.ok(animeService.buscarPorNome(nome, pageable));
     }
