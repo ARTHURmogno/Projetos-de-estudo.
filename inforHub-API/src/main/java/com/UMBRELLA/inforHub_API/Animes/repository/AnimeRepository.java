@@ -13,9 +13,9 @@ public interface AnimeRepository extends JpaRepository<Anime, Long> {
     boolean existsByNome(String nome);
     boolean existsById(Long id);
 
-    Page<Anime> findByGeneroContainingIgnoreCaseOrderByNome(String genero, Pageable pageable);
-    Page<Anime> findByOndeAssistirContainingIgnoreCaseOrderByNome(String ondeAssistir, Pageable pageable);
-    Page<Anime> findByNomeContainingIgnoreCaseOrderByNome(String nome, Pageable pageable);
+    Page<Anime> findByGeneroContainingIgnoreCase(String genero, Pageable pageable);
+    Page<Anime> findByOndeAssistirContainingIgnoreCase(String ondeAssistir, Pageable pageable);
+    Page<Anime> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
 
     Page<Anime> findAllByOrderByNomeAsc(Pageable pageable);
 

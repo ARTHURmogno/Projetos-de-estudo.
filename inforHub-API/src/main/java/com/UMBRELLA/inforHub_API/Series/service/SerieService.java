@@ -1,15 +1,11 @@
 package com.UMBRELLA.inforHub_API.Series.service;
 
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
 
-import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
-import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
 import com.UMBRELLA.inforHub_API.Series.dto.SerieRequestDTO;
 import com.UMBRELLA.inforHub_API.Series.dto.SerieResponseDTO;
