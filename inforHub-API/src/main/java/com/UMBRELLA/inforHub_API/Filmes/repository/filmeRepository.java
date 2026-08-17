@@ -12,9 +12,9 @@ public interface FilmeRepository extends JpaRepository<Filme, Long> {
     boolean existsByNome(String nome);
     boolean existsById(Long id);
 
-    Page<Filme> findByNomeContainingIgnoreCaseOrderByNome(String nome, Pageable pageable);
-    Page<Filme> findByGeneroContainingIgnoreCaseOrderByNomeDesc(String genero, Pageable pageable);
-    Page<Filme> findByOndeAssistirContainingIgnoreCaseOrderByNomeDesc(String ondeAssistir, Pageable pageable);
+    Page<Filme> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
+    Page<Filme> findByGeneroContainingIgnoreCase(String genero, Pageable pageable);
+    Page<Filme> findByOndeAssistirContainingIgnoreCase(String ondeAssistir, Pageable pageable);
 
     List<Filme> findAllByOrderByGeneroDesc(String genero);
 

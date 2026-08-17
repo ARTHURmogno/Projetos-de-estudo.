@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeRequestDTO;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeResponseDTO;
+import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeUpdateDTO;
 import com.UMBRELLA.inforHub_API.Filmes.mapper.FilmeMapper;
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
 import com.UMBRELLA.inforHub_API.Filmes.repository.FilmeRepository;
@@ -56,7 +57,7 @@ public class FilmeService {
     }
 
     public Page<FilmeResponseDTO> buscarPorNome(String nome, Pageable pageable) {
-        Page<Filme> listaDeNome = filmeRepository.findByNomeContainingIgnoreCaseOrderByNome(nome, pageable);
+        Page<Filme> listaDeNome = filmeRepository.findByNomeContainingIgnoreCase(nome, pageable);
 
         if (listaDeNome.isEmpty()) {
             throw new IllegalArgumentException("Nada encontrado.");
@@ -66,7 +67,7 @@ public class FilmeService {
     }
 
     public Page<FilmeResponseDTO> buscarPorGenero(String genero, Pageable pageable) {
-        Page<Filme> lista = filmeRepository.findByGeneroContainingIgnoreCaseOrderByNomeDesc(genero, pageable);
+        Page<Filme> lista = filmeRepository.findByGeneroContainingIgnoreCase(genero, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Buscar por Gênero, nada encontrado.");
@@ -76,7 +77,7 @@ public class FilmeService {
     }
 
     public Page<FilmeResponseDTO> buscarPorPlataforma(String ondeAssistri, Pageable pageable) {
-        Page<Filme> lista = filmeRepository.findByOndeAssistirContainingIgnoreCaseOrderByNomeDesc(ondeAssistri, pageable);
+        Page<Filme> lista = filmeRepository.findByOndeAssistirContainingIgnoreCase(ondeAssistri, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Busca por Plataforma, nada encontrado.");
@@ -96,10 +97,10 @@ public class FilmeService {
         .orElseThrow(() -> new IllegalArgumentException("Nada encontrado." + id));
     }
 
-    public FilmeResponseDTO alterarPorId(FilmeRequestDTO dto, Long id) {
+    public FilmeResponseDTO alterarPorId(FilmeUpdateDTO dto, Long id) {
         Filme filme = buscarFilmePorId(id);
 
-        filmeMapper.toEntity(dto);
+        filmeMapper.atualizarFilme(dto, filme);
 
         Filme filmeAtualizar = filmeRepository.save(filme);
 

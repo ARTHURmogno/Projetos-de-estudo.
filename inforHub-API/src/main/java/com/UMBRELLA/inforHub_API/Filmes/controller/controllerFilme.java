@@ -16,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PatchMapping;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeRequestDTO;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeResponseDTO;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeUpdateDTO;
@@ -85,7 +86,7 @@ public class controllerFilme {
         return ResponseEntity.ok(filmeService.buscarPorId(id));
     }
 
-    @PutMapping("/filme/atualizar/{id}")
+    @PatchMapping("/filme/atualizar/{id}")
     public ResponseEntity<FilmeResponseDTO> atualizar(@RequestBody FilmeUpdateDTO dto, @PathVariable Long id) {
         return ResponseEntity.ok(filmeService.alterarPorId(dto, id));
     }
