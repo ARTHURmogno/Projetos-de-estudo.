@@ -19,8 +19,7 @@ public interface AnimeRepository extends JpaRepository<Anime, Long> {
 
     Page<Anime> findAllByOrderByNomeAsc(Pageable pageable);
 
-    List<Anime> findAllByOrderByAnoDeLancamentoAsc(); //n
-    List<Anime> findAllByOrderByAnoDeLancamentoDesc(); //n
+    Page<Anime> findAllByOrderByAnoDeLancamento(); //n
 
 
 }

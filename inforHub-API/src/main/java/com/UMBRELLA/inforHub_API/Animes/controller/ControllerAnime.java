@@ -72,7 +72,7 @@ public class ControllerAnime {
     }
 
     // animes por atributo especifico, busca por: genero e plataforma de streaming.
-    @GetMapping("/animes/{genero}")
+    @GetMapping("/animes/genero/{genero}")
     public ResponseEntity<Page<AnimeResponseDTO>> buscarPorGenero( @PageableDefault(
             page = 0,
             size = 10,
@@ -100,7 +100,7 @@ public class ControllerAnime {
         return ResponseEntity.ok(animeService.alterarAnimePorId(dto, id));
     }
 
-    @DeleteMapping("/anime/{id}")
+    @DeleteMapping("/anime/deletar/{id}")
     public ResponseEntity<Long> deletarPorId(@PathVariable Long id) {
 
         return ResponseEntity.ok(animeService.deletarPorId(id));

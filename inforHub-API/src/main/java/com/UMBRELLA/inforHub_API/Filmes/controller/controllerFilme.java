@@ -18,6 +18,7 @@ import java.util.List;
 
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeRequestDTO;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeResponseDTO;
+import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeUpdateDTO;
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
 import com.UMBRELLA.inforHub_API.Filmes.repository.FilmeRepository;
 import com.UMBRELLA.inforHub_API.Filmes.service.FilmeService;
@@ -79,17 +80,17 @@ public class controllerFilme {
         return ResponseEntity.ok(filmeService.buscarPorPlataforma(ondeAssistir, pageable));
     }
 
-    @GetMapping("/filme/{id}")
+    @GetMapping("/filme/buscarPorId/{id}")
     public ResponseEntity<FilmeResponseDTO> mostrarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(filmeService.buscarPorId(id));
     }
 
-    @PutMapping("/filme/{id}")
-    public ResponseEntity<FilmeResponseDTO> atualizar(@RequestBody @Valid FilmeRequestDTO dto, @PathVariable Long id) {
+    @PutMapping("/filme/atualizar/{id}")
+    public ResponseEntity<FilmeResponseDTO> atualizar(@RequestBody FilmeUpdateDTO dto, @PathVariable Long id) {
         return ResponseEntity.ok(filmeService.alterarPorId(dto, id));
     }
 
-    @DeleteMapping("/filme/{id}")
+    @DeleteMapping("/filme/deletar/{id}")
     public ResponseEntity<Long> deletarFilme(@PathVariable Long id) {
         return ResponseEntity.ok(filmeService.deletarPorId(id));
     }
