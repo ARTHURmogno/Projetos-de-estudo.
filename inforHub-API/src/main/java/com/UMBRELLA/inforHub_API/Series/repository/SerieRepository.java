@@ -12,10 +12,12 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     boolean existsByNome(String nome);
     boolean existsById(Long id);
 
-    Page<Serie> findByNomeContainingIgnoreCaseOrderByNomeDesc(String nome, Pageable pageable);
-    Page<Serie> findByGeneroContainingIgnoreCaseOrderByNomeDesc(String genero, Pageable pageable);
-    Page<Serie> findByLancamentoContainingIgnoreCaseOrderByNomeDesc(String lancamento, Pageable pageable);
-    Page<Serie> findByOndeAssistirContainingIgnoreCaseOrderByNomeDesc(String ondeAssistir, Pageable pageable);
+    Page<Serie> findAllByOrderByNome(Pageable pageable);
+
+    Page<Serie> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
+    Page<Serie> findByGeneroContainingIgnoreCase(String genero, Pageable pageable);
+    Page<Serie> findByLancamentoContainingIgnoreCase(String lancamento, Pageable pageable);
+    Page<Serie> findByOndeAssistirContainingIgnoreCase(String ondeAssistir, Pageable pageable);
 
 
 

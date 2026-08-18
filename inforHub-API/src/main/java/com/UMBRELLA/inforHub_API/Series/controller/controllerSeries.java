@@ -1,24 +1,23 @@
 package com.UMBRELLA.inforHub_API.Series.controller;
 
-import com.UMBRELLA.inforHub_API.Series.repository.SerieRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.UMBRELLA.inforHub_API.Series.dto.SerieRequestDTO;
 import com.UMBRELLA.inforHub_API.Series.dto.SerieResponseDTO;
-import com.UMBRELLA.inforHub_API.Series.model.Serie;
+import com.UMBRELLA.inforHub_API.Series.dto.SerieUpdateDTO;
 import com.UMBRELLA.inforHub_API.Series.service.SerieService;
 
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -43,6 +42,17 @@ public class controllerSeries {
     @GetMapping("/series/quantidade")
     public ResponseEntity<Long> seriesQuantidade() {
         return ResponseEntity.ok(serieService.contarSeries());
+    }
+
+    @GetMapping("serie/mostrar")
+    public ResponseEntity<Page<SerieResponseDTO>> mostrarSeries(
+        @PageableDefault(
+        page = 0,
+        size = 10,
+        sort = "nome",
+        direction = Sort.Direction.DESC) Pageable pageable) {
+
+            return ResponseEntity.ok(serieService.mostrarSeries(pageable));
     }
 
     // buscar uma serie especifica pelo seu id;
@@ -89,8 +99,8 @@ public class controllerSeries {
         return ResponseEntity.ok(serieService.buscarPorPlataforma(ondeAssistir, pageable));
     }
 
-    @PutMapping("/serie/update/{id}")
-    public ResponseEntity<SerieResponseDTO> atualizarPorId(@PathVariable Long id, @RequestBody @Valid SerieRequestDTO dto) {
+    @PatchMapping("/serie/update/{id}")
+    public ResponseEntity<SerieResponseDTO> atualizarPorId(@PathVariable Long id, @RequestBody SerieUpdateDTO dto) {
         return ResponseEntity.ok(serieService.alterarSerie(dto, id));
 
     }

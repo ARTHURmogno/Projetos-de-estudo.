@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
 import com.UMBRELLA.inforHub_API.Series.dto.SerieRequestDTO;
 import com.UMBRELLA.inforHub_API.Series.dto.SerieResponseDTO;
+import com.UMBRELLA.inforHub_API.Series.dto.SerieUpdateDTO;
 import com.UMBRELLA.inforHub_API.Series.mapper.SerieMapper;
 import com.UMBRELLA.inforHub_API.Series.model.Serie;
 import com.UMBRELLA.inforHub_API.Series.repository.SerieRepository;
@@ -43,6 +44,16 @@ public class SerieService {
         return quantidade;
     }
 
+    public Page<SerieResponseDTO> mostrarSeries(Pageable pageable) {
+        Page<Serie> serieList = serieRepository.findAllByOrderByNome(pageable);
+
+        if (serieList.isEmpty()) {
+            throw new ResourceNotFoundException("Nada encontrado");
+        }
+
+        return serieList.map(serieMapper::toResponseDTO);
+    }
+
     public SerieResponseDTO buscarPorId(Long id) {
         Serie serie = buscarSeriePorId(id);
 
@@ -55,7 +66,7 @@ public class SerieService {
     }
 
     public Page<SerieResponseDTO> buscarPorNome(String nome, Pageable pageable) {
-        Page<Serie> lista = serieRepository.findByNomeContainingIgnoreCaseOrderByNomeDesc(nome, pageable);
+        Page<Serie> lista = serieRepository.findByNomeContainingIgnoreCase(nome, pageable);
 
         if (lista.isEmpty()) {
             throw new ResourceNotFoundException("Nenhum registro encontrado para a busca informada.");
@@ -65,7 +76,7 @@ public class SerieService {
     }    
 
     public Page<SerieResponseDTO> buscarPorGenero(String genero, Pageable pageable) {
-        Page<Serie> lista = serieRepository.findByGeneroContainingIgnoreCaseOrderByNomeDesc(genero, pageable);
+        Page<Serie> lista = serieRepository.findByGeneroContainingIgnoreCase(genero, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Gênero não encontrado.");
@@ -75,7 +86,7 @@ public class SerieService {
     }
 
     public Page<SerieResponseDTO> buscarPorLancamento(String lancamento, Pageable pageable) {
-        Page<Serie> lista = serieRepository.findByLancamentoContainingIgnoreCaseOrderByNomeDesc(lancamento, pageable);
+        Page<Serie> lista = serieRepository.findByLancamentoContainingIgnoreCase(lancamento, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Lançâmento não encontrado.");
@@ -85,7 +96,7 @@ public class SerieService {
     }
 
     public Page<SerieResponseDTO> buscarPorPlataforma(String ondeAssistir, Pageable pageable) {
-        Page<Serie> lista = serieRepository.findByOndeAssistirContainingIgnoreCaseOrderByNomeDesc(ondeAssistir, pageable);
+        Page<Serie> lista = serieRepository.findByOndeAssistirContainingIgnoreCase(ondeAssistir, pageable);
 
         if (lista.isEmpty()) {
             throw new IllegalArgumentException("Busca por plataforma, nada encontrado.");
@@ -94,7 +105,7 @@ public class SerieService {
         return lista.map(serieMapper::toResponseDTO);
     }
 
-     public SerieResponseDTO alterarSerie(SerieRequestDTO dto, Long id) {
+     public SerieResponseDTO alterarSerie(SerieUpdateDTO dto, Long id) {
         Serie serie = buscarSeriePorId(id);
 
         serieMapper.atualizarSerie(dto, serie);
