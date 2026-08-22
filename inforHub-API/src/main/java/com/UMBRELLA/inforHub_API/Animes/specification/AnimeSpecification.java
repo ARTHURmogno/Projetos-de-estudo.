@@ -14,7 +14,7 @@ public class AnimeSpecification {
         return (root, query, builder) -> {
             Predicate predicate = builder.conjunction();
 
-            if (filtro.getNome() != null) {
+            if (filtro.getNome() != null && !filtro.getNome().isBlank()) {
 
                 String nomeBuscar = "%" + filtro.getNome().toLowerCase() + "%";
                 Predicate nomePredicate = builder.like(builder.lower(root.get("nome")), nomeBuscar);
@@ -23,7 +23,8 @@ public class AnimeSpecification {
 
             }
 
-            if (filtro.getGenero() != null) {
+            if (filtro.getGenero() != null && !filtro.getGenero().isBlank()) {
+
                 String generoBuscar = "%" + filtro.getGenero().toLowerCase() + "%";
                 Predicate generoPredicate = builder.like(builder.lower(root.get("genero")), generoBuscar);
 
@@ -31,7 +32,7 @@ public class AnimeSpecification {
 
             }
 
-            if (filtro.getOndeAssistir() != null) {
+            if (filtro.getOndeAssistir() != null && !filtro.getOndeAssistir().isBlank()) {
 
                 String ondeAssistirBuscar = "%" + filtro.getOndeAssistir().toLowerCase() + "%";
                 Predicate ondeAssistirPredicate = builder.like(builder.lower(root.get("ondeAssistir")), ondeAssistirBuscar);
