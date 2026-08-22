@@ -5,13 +5,16 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
+import com.UMBRELLA.inforHub_API.Animes.dto.AnimeFiltroDTO;
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeResponseDTO;
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeUpdateDTO;
 import com.UMBRELLA.inforHub_API.Animes.mapper.AnimeMapper;
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
+import com.UMBRELLA.inforHub_API.Animes.specification.AnimeSpecification;
 import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
 
 @Service
@@ -36,6 +39,14 @@ public class AnimeService {
         Anime novoAnime = animeRepository.save(anime);
 
         return animeMapper.toResponseDTO(novoAnime);
+    }
+
+    public Page<AnimeResponseDTO> buscarPorFiltro(AnimeFiltroDTO filtro, Pageable pageable) {
+        Specification<Anime> specification = AnimeSpecification.comFiltros(filtro);
+
+        Page<Anime> pagina = animeRepository.findAll(specification, pageable);
+
+        return pagina.map(animeMapper::toResponseDTO);
     }
 
     public Long todosAnime() {
