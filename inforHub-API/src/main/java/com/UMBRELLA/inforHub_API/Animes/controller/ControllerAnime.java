@@ -74,40 +74,7 @@ public class ControllerAnime {
         return ResponseEntity.ok(animeService.buscarPorId(id));
 
     }
-
-    @GetMapping("/anime/buscar/{nome}")
-    public ResponseEntity<Page<AnimeResponseDTO>> buscarPorNome(@PageableDefault (
-        page = 0, 
-        size = 10, 
-        sort = "nome", 
-        direction = Sort.Direction.DESC)@PathVariable String nome, Pageable pageable) {
-
-        return ResponseEntity.ok(animeService.buscarPorNome(nome, pageable));
-    }
-
-    // animes por atributo especifico, busca por: genero e plataforma de streaming.
-    @GetMapping("/animes/genero/{genero}")
-    public ResponseEntity<Page<AnimeResponseDTO>> buscarPorGenero( @PageableDefault(
-            page = 0,
-            size = 10,
-            sort = "nome",
-            direction = Sort.Direction.DESC)@PathVariable String genero, Pageable pageable) {
-
-        return ResponseEntity.ok(animeService.buscarPorGenero(genero, pageable));
-    }
-
     
-           
-    @GetMapping("/anime/Plataforma/{ondeAssistir}")
-    public ResponseEntity<Page<AnimeResponseDTO>> buscarPorPlataforma( @PageableDefault(
-            page = 0,
-            size = 10,
-            sort = "nome",
-            direction = Sort.Direction.DESC)@PathVariable String ondeAssistir, Pageable pageable) {
-
-        return ResponseEntity.ok(animeService.buscarPorPlataforma(ondeAssistir, pageable));
-    }
-
     @PatchMapping("/anime/atualizar/{id}")
     public ResponseEntity<AnimeResponseDTO> alterarAnimePorId(@RequestBody AnimeUpdateDTO dto, @PathVariable Long id) {
 

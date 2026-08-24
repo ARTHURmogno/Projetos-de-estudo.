@@ -70,36 +70,6 @@ public class AnimeService {
         orElseThrow(() -> new ResourceNotFoundException("Nada encontrado."));
     }
 
-    public Page<AnimeResponseDTO> buscarPorGenero(String genero, Pageable pageable) {
-        Page<Anime> paginaAnime = animeRepository.findByGeneroContainingIgnoreCase(genero, pageable);
-
-        if (paginaAnime.isEmpty()) {
-            throw new IllegalArgumentException("Nada encontrado.");
-        }
-
-        return paginaAnime.map(animeMapper::toResponseDTO);
-    }
-
-    public Page<AnimeResponseDTO> buscarPorPlataforma(String ondeAssistir, Pageable pageable) {
-        Page<Anime> lista = animeRepository.findByOndeAssistirContainingIgnoreCase(ondeAssistir, pageable);
-
-        if (lista.isEmpty()) {
-            throw new IllegalArgumentException("Nada encontrado.");
-        }
-
-        return lista.map(animeMapper::toResponseDTO);
-    }
-
-    public Page<AnimeResponseDTO> buscarPorNome(String nome, Pageable pageable) {
-        Page<Anime> listaNomes = animeRepository.findByNomeContainingIgnoreCase(nome, pageable);
-
-        if (listaNomes.isEmpty()) {
-            throw new ResourceNotFoundException("Nenhum registro encontrado para a busca informada.");
-        }
-
-        return listaNomes.map(animeMapper::toResponseDTO);
-    }
-
      public AnimeResponseDTO alterarAnimePorId(AnimeUpdateDTO dto, Long id) {
         Anime anime = buscarAnimePorId(id);
 
