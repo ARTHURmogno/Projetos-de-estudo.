@@ -41,6 +41,14 @@ public class AnimeSpecification {
 
             }
 
+            if (filtro.getAnoDeLancamento() != null && filtro.getAnoDeLancamento() > 0) {
+
+                String anoDeLancamentoBuscar = "%" + filtro.getAnoDeLancamento() + "%";
+                Predicate anoDeLancamentoPredicate = builder.equal(builder.lower(root.get("anoDeLancamento")), anoDeLancamentoBuscar);
+
+                predicate = builder.and(predicate, anoDeLancamentoPredicate);
+            }
+
             return predicate;
         };
 

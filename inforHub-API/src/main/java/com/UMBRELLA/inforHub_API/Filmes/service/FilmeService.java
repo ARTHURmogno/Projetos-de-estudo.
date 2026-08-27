@@ -1,20 +1,20 @@
 package com.UMBRELLA.inforHub_API.Filmes.service;
 
-import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
-import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
+import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeFiltroDTO;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeRequestDTO;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeResponseDTO;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeUpdateDTO;
 import com.UMBRELLA.inforHub_API.Filmes.mapper.FilmeMapper;
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
 import com.UMBRELLA.inforHub_API.Filmes.repository.FilmeRepository;
+import com.UMBRELLA.inforHub_API.Filmes.specification.FilmeSpecification;
 
 @Service
 public class FilmeService {
@@ -46,44 +46,13 @@ public class FilmeService {
         return quantidade;
     }
 
-    public Page<FilmeResponseDTO> mostrarFilmes(Pageable pageable) {
-        Page<Filme> listaDeFilmes = filmeRepository.findAll(pageable);
+    public Page<FilmeResponseDTO> buscarFilmePorFilmtro(FilmeFiltroDTO filtro, Pageable pageable) {
+        Specification<Filme> specification = FilmeSpecification.filtroDeFilme(filtro);
 
-        if (listaDeFilmes.isEmpty()) {
-            throw new IllegalArgumentException("Nada encontrado.");
-        }
+        Page<Filme> buscar = filmeRepository.findAll(specification, pageable);
 
-        return listaDeFilmes.map(filmeMapper::toResponseDTO);
-    }
+        return buscar.map(filmeMapper::toResponseDTO);
 
-    public Page<FilmeResponseDTO> buscarPorNome(String nome, Pageable pageable) {
-        Page<Filme> listaDeNome = filmeRepository.findByNomeContainingIgnoreCase(nome, pageable);
-
-        if (listaDeNome.isEmpty()) {
-            throw new IllegalArgumentException("Nada encontrado.");
-        }
-
-        return listaDeNome.map(filmeMapper::toResponseDTO);
-    }
-
-    public Page<FilmeResponseDTO> buscarPorGenero(String genero, Pageable pageable) {
-        Page<Filme> lista = filmeRepository.findByGeneroContainingIgnoreCase(genero, pageable);
-
-        if (lista.isEmpty()) {
-            throw new IllegalArgumentException("Buscar por Gênero, nada encontrado.");
-        }
-
-        return lista.map(filmeMapper::toResponseDTO);
-    }
-
-    public Page<FilmeResponseDTO> buscarPorPlataforma(String ondeAssistri, Pageable pageable) {
-        Page<Filme> lista = filmeRepository.findByOndeAssistirContainingIgnoreCase(ondeAssistri, pageable);
-
-        if (lista.isEmpty()) {
-            throw new IllegalArgumentException("Busca por Plataforma, nada encontrado.");
-        }
-
-        return lista.map(filmeMapper::toResponseDTO);
     }
 
     public FilmeResponseDTO buscarPorId(Long id) {

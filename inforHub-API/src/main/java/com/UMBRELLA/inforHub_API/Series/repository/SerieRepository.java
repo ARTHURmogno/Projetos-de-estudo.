@@ -6,8 +6,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.UMBRELLA.inforHub_API.Series.model.Serie;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface SerieRepository extends JpaRepository<Serie, Long> {
+public interface SerieRepository extends JpaRepository<Serie, Long>, JpaSpecificationExecutor<Serie> {
 
     boolean existsByNome(String nome);
     boolean existsById(Long id);

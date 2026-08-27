@@ -6,8 +6,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.UMBRELLA.inforHub_API.Filmes.model.Filme;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface FilmeRepository extends JpaRepository<Filme, Long> {
+public interface FilmeRepository extends JpaRepository<Filme, Long>, JpaSpecificationExecutor<Filme> {
 
     boolean existsByNome(String nome);
     boolean existsById(Long id);

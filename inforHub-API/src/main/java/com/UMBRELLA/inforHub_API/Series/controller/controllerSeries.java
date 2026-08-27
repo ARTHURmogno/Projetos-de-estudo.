@@ -1,8 +1,10 @@
 package com.UMBRELLA.inforHub_API.Series.controller;
 
+import com.UMBRELLA.inforHub_API.Animes.mapper.AnimeMapperImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.UMBRELLA.inforHub_API.Series.dto.SerieFiltroDTO;
 import com.UMBRELLA.inforHub_API.Series.dto.SerieRequestDTO;
 import com.UMBRELLA.inforHub_API.Series.dto.SerieResponseDTO;
 import com.UMBRELLA.inforHub_API.Series.dto.SerieUpdateDTO;
@@ -11,6 +13,7 @@ import com.UMBRELLA.inforHub_API.Series.service.SerieService;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,9 +29,10 @@ import org.springframework.data.web.PageableDefault;
 @RestController
 public class controllerSeries {
 
+
     private final SerieService serieService;
 
-    public controllerSeries(SerieService serieService) {
+    public controllerSeries(SerieService serieService)  {
         this.serieService = serieService;
     }
 
@@ -39,20 +43,20 @@ public class controllerSeries {
 
     }
 
+    @GetMapping("/serie/filtro")
+    public ResponseEntity<Page<SerieResponseDTO>> seriePorFiltro(@ModelAttribute SerieFiltroDTO filtro,
+        @PageableDefault(
+            page = 0,
+            size = 10,
+            sort = "nome",
+            direction = Sort.Direction.DESC) Pageable pageable) {
+
+                return ResponseEntity.ok(serieService.buscarSeriesPorFiltro(filtro, pageable));
+            }
+
     @GetMapping("/series/quantidade")
     public ResponseEntity<Long> seriesQuantidade() {
         return ResponseEntity.ok(serieService.contarSeries());
-    }
-
-    @GetMapping("serie/mostrar")
-    public ResponseEntity<Page<SerieResponseDTO>> mostrarSeries(
-        @PageableDefault(
-        page = 0,
-        size = 10,
-        sort = "nome",
-        direction = Sort.Direction.DESC) Pageable pageable) {
-
-            return ResponseEntity.ok(serieService.mostrarSeries(pageable));
     }
 
     // buscar uma serie especifica pelo seu id;
@@ -60,43 +64,6 @@ public class controllerSeries {
     public ResponseEntity<SerieResponseDTO> buscarPorId(@PathVariable Long id) {
 
         return ResponseEntity.ok(serieService.buscarPorId(id));
-    }
-
-    @GetMapping("/serie/buscarPorNome/{nome}")
-    public ResponseEntity<Page<SerieResponseDTO>> buscarPorNome(@PageableDefault(
-             size = 10,
-             sort = "nome",
-             direction = Sort.Direction.DESC)
-             @PathVariable String nome, Pageable pageable) {
-        return ResponseEntity.ok(serieService.buscarPorNome(nome, pageable));
-    }
-
-    // busca por informacoes especifica, pode-se por: lancamento, genero e plataforma;
-    @GetMapping("/serie/genero/{genero}")
-    public ResponseEntity<Page<SerieResponseDTO>> buscarPorGenero(@PageableDefault(
-             size = 10,
-             sort = "nome",
-             direction = Sort.Direction.DESC)
-             @PathVariable String genero, Pageable pageable) {
-        return ResponseEntity.ok(serieService.buscarPorGenero(genero, pageable));
-    }
-
-    @GetMapping("/serie/lancamento/{lancamento}")
-    public ResponseEntity<Page<SerieResponseDTO>> buscarPorLancamento(@PageableDefault(
-             size = 10,
-             sort = "nome",
-             direction = Sort.Direction.DESC)
-             @PathVariable String lancamento, Pageable pageable) {
-        return ResponseEntity.ok(serieService.buscarPorLancamento(lancamento, pageable));
-    }
-
-    @GetMapping("/serie/plataforma/{ondeAssistir}")
-    public ResponseEntity<Page<SerieResponseDTO>> buscaPorPlataforma(@PageableDefault(
-             size = 10,
-             sort = "nome",
-             direction = Sort.Direction.DESC)
-             @PathVariable String ondeAssistir, Pageable pageable) {
-        return ResponseEntity.ok(serieService.buscarPorPlataforma(ondeAssistir, pageable));
     }
 
     @PatchMapping("/serie/update/{id}")

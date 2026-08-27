@@ -41,7 +41,7 @@ public class Anime{
     @Positive
     @Min(1900)
     @Max(2100)
-    private int anoDeLancamento;
+    private Integer anoDeLancamento;
 
     @Positive
     private int episodios;
@@ -53,7 +53,7 @@ public class Anime{
 
     }
 
-    public Anime(Long id, String nome, String genero, String sinopse, String ondeAssistir, int anoDeLancamento, int episodios, int temporada) {
+    public Anime(Long id, String nome, String genero, String sinopse, String ondeAssistir, Integer anoDeLancamento, int episodios, int temporada) {
         this.id = id;
         this.nome = nome;
         this.genero = genero;

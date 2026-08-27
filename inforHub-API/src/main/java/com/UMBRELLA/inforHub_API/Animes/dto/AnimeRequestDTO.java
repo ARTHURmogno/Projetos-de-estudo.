@@ -26,7 +26,7 @@ public class AnimeRequestDTO {
     @Positive
     @Min(1900)
     @Max(2100)
-    private int anoDeLancamento;
+    private Integer anoDeLancamento;
     @Positive
     private int episodios;
     @Positive
@@ -36,7 +36,7 @@ public class AnimeRequestDTO {
 
     }
 
-    public AnimeRequestDTO(String nome, String genero, String sinopse, String ondeAssistir, int anoDeLancamento, int episodios, int temporada) {
+    public AnimeRequestDTO(String nome, String genero, String sinopse, String ondeAssistir, Integer anoDeLancamento, int episodios, int temporada) {
         this.nome = nome;
         this.genero = genero;
         this.sinopse = sinopse;

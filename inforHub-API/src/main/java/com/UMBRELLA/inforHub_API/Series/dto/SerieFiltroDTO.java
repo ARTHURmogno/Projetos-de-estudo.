@@ -1,4 +1,4 @@
-package com.UMBRELLA.inforHub_API.Animes.dto;
+package com.UMBRELLA.inforHub_API.Series.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,11 +9,11 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnimeFiltroDTO {
+public class SerieFiltroDTO {
 
     private String nome;
     private String genero;
     private String ondeAssistir;
-    private Integer anoDeLancamento;
+    private Integer lancamento;
     
 }

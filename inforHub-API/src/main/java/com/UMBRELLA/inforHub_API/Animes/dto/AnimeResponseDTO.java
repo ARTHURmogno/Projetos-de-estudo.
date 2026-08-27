@@ -16,7 +16,7 @@ public class AnimeResponseDTO {
     private String genero;
     private String sinopse;
     private String ondeAssistir;
-    private int anoDeLancamento;
+    private Integer anoDeLancamento;
     private int episodios;
     private int temporada;
 
