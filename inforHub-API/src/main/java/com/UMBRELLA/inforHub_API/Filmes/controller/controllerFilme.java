@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,9 +40,9 @@ public class controllerFilme {
     
     }
 
-    @GetMapping("/filmes/count")
-    public ResponseEntity<Long> listarFilmes() {
-        return ResponseEntity.ok(filmeService.todosOsFilmes());
+    @GetMapping("/filme/count")
+    public ResponseEntity<Long> contarFilmes() {
+        return ResponseEntity.ok(filmeService.contarOsFilmes());
     }
 
     @GetMapping("/filme/filtro")
@@ -53,7 +52,7 @@ public class controllerFilme {
         direction = Sort.Direction.DESC)
         Pageable pageable) {
 
-            return ResponseEntity.ok(filmeService.buscarFilmePorFilmtro(filtro, pageable));
+            return ResponseEntity.ok(filmeService.buscarFilmePorFiltro(filtro, pageable));
 
         }
 

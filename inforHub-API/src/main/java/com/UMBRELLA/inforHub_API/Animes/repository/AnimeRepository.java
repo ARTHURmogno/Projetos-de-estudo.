@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -19,7 +18,7 @@ public interface AnimeRepository extends JpaRepository<Anime, Long>, JpaSpecific
     Page<Anime> findByOndeAssistirContainingIgnoreCase(String ondeAssistir, Pageable pageable);
     Page<Anime> findByNomeContainingIgnoreCase(String nome, Pageable pageable);
 
-    Page<Anime> findAllByOrderByNomeAsc(Pageable pageable);
+    Page<Anime> findAllByOrderByNome(Pageable pageable);
 
     List<Anime> findAllByOrderByAnoDeLancamento(); //n
 

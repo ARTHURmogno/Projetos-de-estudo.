@@ -1,6 +1,5 @@
 package com.UMBRELLA.inforHub_API.Series.service;
 
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

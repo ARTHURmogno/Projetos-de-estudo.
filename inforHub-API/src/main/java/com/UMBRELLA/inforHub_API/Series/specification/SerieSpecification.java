@@ -43,7 +43,7 @@ public class SerieSpecification {
 
             if (filtroDTO.getLancamento() != null && filtroDTO.getLancamento() > 0) {
 
-                String lancamentoBuscar = "%" + filtroDTO.getLancamento() + "%";
+                
                 Predicate lancamentoPredicate = builder.equal(root.get("lancamento"), filtroDTO.getLancamento());
 
                 predicate = builder.and(predicate, lancamentoPredicate);

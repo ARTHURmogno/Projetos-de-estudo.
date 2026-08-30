@@ -11,7 +11,6 @@ import com.UMBRELLA.inforHub_API.Animes.dto.AnimeFiltroDTO;
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeRequestDTO;
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeResponseDTO;
 import com.UMBRELLA.inforHub_API.Animes.dto.AnimeUpdateDTO;
-import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.service.AnimeService;
 import jakarta.validation.Valid;
 
@@ -50,23 +49,11 @@ public class ControllerAnime {
                 return ResponseEntity.ok(animeService.buscarPorFiltro(filtro, pageable));
             }
 
-    @GetMapping("/animes/count")
-    public ResponseEntity<Long> listarTodos() {
+    @GetMapping("/anime/count")
+    public ResponseEntity<Long> contarTodos() {
 
-        return ResponseEntity.ok(animeService.todosAnime());
+        return ResponseEntity.ok(animeService.contarAnimes());
     }
-
-    @GetMapping("/anime/mostrar")
-    public ResponseEntity<Page<AnimeResponseDTO>> mostrarAnimes(
-        @PageableDefault(
-            page = 0,
-            size = 10,
-            sort = "nome",
-            direction = Sort.Direction.DESC)
-          Pageable pageable) {
-
-        return ResponseEntity.ok(animeService.mostrarAnimes(pageable));
-    } 
 
     @GetMapping("/anime/{id}")
     public ResponseEntity<AnimeResponseDTO> mostrarPorId(@PathVariable Long id) {

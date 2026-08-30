@@ -1,7 +1,5 @@
 package com.UMBRELLA.inforHub_API.Animes.service;
 
-//import java.util.List;
-//import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,14 +47,8 @@ public class AnimeService {
         return pagina.map(animeMapper::toResponseDTO);
     }
 
-    public Long todosAnime() {
+    public Long contarAnimes() {
         return animeRepository.count();
-    }
-
-    public Page<AnimeResponseDTO> mostrarAnimes(Pageable pageable) {
-        Page<Anime> animeList = animeRepository.findAllByOrderByNomeAsc(pageable);
-
-        return animeList.map(animeMapper::toResponseDTO);
     }
 
     public AnimeResponseDTO buscarPorId(Long id) {
@@ -73,7 +65,6 @@ public class AnimeService {
      public AnimeResponseDTO alterarAnimePorId(AnimeUpdateDTO dto, Long id) {
         Anime anime = buscarAnimePorId(id);
 
-        //copiarDadosDoDTO(anime, dto);
         animeMapper.atualizarAnime(dto, anime);
 
         Anime animeAtualizado = animeRepository.save(anime);

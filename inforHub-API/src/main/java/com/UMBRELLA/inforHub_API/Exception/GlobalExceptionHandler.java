@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-import com.UMBRELLA.inforHub_API.Exception.ErroResponse;
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

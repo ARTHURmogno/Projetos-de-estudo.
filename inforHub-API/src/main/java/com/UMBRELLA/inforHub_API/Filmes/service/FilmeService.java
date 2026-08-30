@@ -1,7 +1,6 @@
 package com.UMBRELLA.inforHub_API.Filmes.service;
 
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,18 +39,18 @@ public class FilmeService {
       
     }
 
-    public Long todosOsFilmes() {
+    public Long contarOsFilmes() {
         Long quantidade = filmeRepository.count();
 
         return quantidade;
     }
 
-    public Page<FilmeResponseDTO> buscarFilmePorFilmtro(FilmeFiltroDTO filtro, Pageable pageable) {
+    public Page<FilmeResponseDTO> buscarFilmePorFiltro(FilmeFiltroDTO filtro, Pageable pageable) {
         Specification<Filme> specification = FilmeSpecification.filtroDeFilme(filtro);
 
-        Page<Filme> buscar = filmeRepository.findAll(specification, pageable);
+        Page<Filme> pagina = filmeRepository.findAll(specification, pageable);
 
-        return buscar.map(filmeMapper::toResponseDTO);
+        return pagina.map(filmeMapper::toResponseDTO);
 
     }
 

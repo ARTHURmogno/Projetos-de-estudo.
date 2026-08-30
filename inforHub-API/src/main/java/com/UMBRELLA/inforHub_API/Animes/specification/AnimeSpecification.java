@@ -43,8 +43,8 @@ public class AnimeSpecification {
 
             if (filtro.getAnoDeLancamento() != null && filtro.getAnoDeLancamento() > 0) {
 
-                String anoDeLancamentoBuscar = "%" + filtro.getAnoDeLancamento() + "%";
-                Predicate anoDeLancamentoPredicate = builder.equal(builder.lower(root.get("anoDeLancamento")), anoDeLancamentoBuscar);
+                
+                Predicate anoDeLancamentoPredicate = builder.equal((root.get("anoDeLancamento")), filtro.getAnoDeLancamento());
 
                 predicate = builder.and(predicate, anoDeLancamentoPredicate);
             }
