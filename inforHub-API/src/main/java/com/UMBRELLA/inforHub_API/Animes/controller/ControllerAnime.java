@@ -31,13 +31,13 @@ public class ControllerAnime {
         this.animeService = animeService;
     }
 
-    @PostMapping("/anime")
+    @PostMapping("/animes")
     public ResponseEntity<AnimeResponseDTO> adicionarAnime(@RequestBody @Valid AnimeRequestDTO dto) {
 
         return ResponseEntity.ok(animeService.adicionarAnime(dto));
     }
 
-    @GetMapping("/anime/comFiltro")
+    @GetMapping("/animes")
     public ResponseEntity<Page<AnimeResponseDTO>> buscaPorSpecification(
         @ModelAttribute AnimeFiltroDTO filtro,
         @PageableDefault(
@@ -49,26 +49,26 @@ public class ControllerAnime {
                 return ResponseEntity.ok(animeService.buscarPorFiltro(filtro, pageable));
             }
 
-    @GetMapping("/anime/count")
+    @GetMapping("/animes/count")
     public ResponseEntity<Long> contarTodos() {
 
         return ResponseEntity.ok(animeService.contarAnimes());
     }
 
-    @GetMapping("/anime/{id}")
+    @GetMapping("/animes/{id}")
     public ResponseEntity<AnimeResponseDTO> mostrarPorId(@PathVariable Long id) {
 
         return ResponseEntity.ok(animeService.buscarPorId(id));
 
     }
     
-    @PatchMapping("/anime/atualizar/{id}")
+    @PatchMapping("/animes/{id}")
     public ResponseEntity<AnimeResponseDTO> alterarAnimePorId(@RequestBody AnimeUpdateDTO dto, @PathVariable Long id) {
 
         return ResponseEntity.ok(animeService.alterarAnimePorId(dto, id));
     }
 
-    @DeleteMapping("/anime/deletar/{id}")
+    @DeleteMapping("/animes/{id}")
     public ResponseEntity<Long> deletarPorId(@PathVariable Long id) {
 
         return ResponseEntity.ok(animeService.deletarPorId(id));

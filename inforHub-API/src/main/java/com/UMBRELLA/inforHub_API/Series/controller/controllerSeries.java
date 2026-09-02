@@ -35,13 +35,13 @@ public class controllerSeries {
     }
 
     
-    @PostMapping("/serie/save")
+    @PostMapping("/series")
     public ResponseEntity<SerieResponseDTO> adicionarSerie(@RequestBody @Valid SerieRequestDTO dto) {
         return ResponseEntity.ok(serieService.adicionarSerie(dto));
 
     }
 
-    @GetMapping("/serie/filtro")
+    @GetMapping("/series")
     public ResponseEntity<Page<SerieResponseDTO>> seriePorFiltro(@ModelAttribute SerieFiltroDTO filtro,
         @PageableDefault(
             page = 0,
@@ -52,25 +52,25 @@ public class controllerSeries {
                 return ResponseEntity.ok(serieService.buscarSeriesPorFiltro(filtro, pageable));
             }
 
-    @GetMapping("/serie/quantidade")
+    @GetMapping("/series/count")
     public ResponseEntity<Long> seriesQuantidade() {
         return ResponseEntity.ok(serieService.contarSeries());
     }
 
     // buscar uma serie especifica pelo seu id;
-    @GetMapping("/Serie/buscar/{id}")
+    @GetMapping("/series/{id}")
     public ResponseEntity<SerieResponseDTO> buscarPorId(@PathVariable Long id) {
 
         return ResponseEntity.ok(serieService.buscarPorId(id));
     }
 
-    @PatchMapping("/serie/update/{id}")
+    @PatchMapping("/series/{id}")
     public ResponseEntity<SerieResponseDTO> atualizarPorId(@PathVariable Long id, @RequestBody SerieUpdateDTO dto) {
         return ResponseEntity.ok(serieService.alterarSerie(dto, id));
 
     }
 
-    @DeleteMapping("/serie/delete/{id}")
+    @DeleteMapping("/series/{id}")
     public ResponseEntity<Long> deletarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(serieService.deletarPorId(id));
 

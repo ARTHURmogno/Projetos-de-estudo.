@@ -33,19 +33,19 @@ public class controllerFilme {
         this.filmeService = filmeService;
     }
 
-    @PostMapping("/filme")
+    @PostMapping("/filmes")
     public ResponseEntity<FilmeResponseDTO> adicionarFilme(@RequestBody @Valid FilmeRequestDTO dto) {
 
         return ResponseEntity.ok(filmeService.adicionarFilme(dto));
     
     }
 
-    @GetMapping("/filme/count")
+    @GetMapping("/filmes/count")
     public ResponseEntity<Long> contarFilmes() {
         return ResponseEntity.ok(filmeService.contarOsFilmes());
     }
 
-    @GetMapping("/filme/filtro")
+    @GetMapping("/filmes")
     public ResponseEntity<Page<FilmeResponseDTO>> buscaPorFiltro(@ModelAttribute FilmeFiltroDTO filtro, @PageableDefault(
         size = 10,
         sort = "nome",
@@ -56,17 +56,17 @@ public class controllerFilme {
 
         }
 
-    @GetMapping("/filme/buscarPorId/{id}")
+    @GetMapping("/filmes/{id}")
     public ResponseEntity<FilmeResponseDTO> mostrarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(filmeService.buscarPorId(id));
     }
 
-    @PatchMapping("/filme/atualizar/{id}")
+    @PatchMapping("/filmes/{id}")
     public ResponseEntity<FilmeResponseDTO> atualizar(@RequestBody FilmeUpdateDTO dto, @PathVariable Long id) {
         return ResponseEntity.ok(filmeService.alterarPorId(dto, id));
     }
 
-    @DeleteMapping("/filme/deletar/{id}")
+    @DeleteMapping("/filmes/{id}")
     public ResponseEntity<Long> deletarFilme(@PathVariable Long id) {
         return ResponseEntity.ok(filmeService.deletarPorId(id));
     }
