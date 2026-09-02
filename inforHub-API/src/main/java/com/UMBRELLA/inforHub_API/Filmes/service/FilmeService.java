@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.UMBRELLA.inforHub_API.Exception.ResourceAlreadyExistsException;
+import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeFiltroDTO;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeRequestDTO;
 import com.UMBRELLA.inforHub_API.Filmes.dto.FilmeResponseDTO;
@@ -30,7 +32,7 @@ public class FilmeService {
         Filme filme = filmeMapper.toEntity(dto);
 
         if (filmeRepository.existsByNome(filme.getNome())) {
-            throw new IllegalArgumentException("Filme já cadastrado.");
+            throw new ResourceAlreadyExistsException("Filme já cadastrado.");
         }
 
         Filme novoFilme = filmeRepository.save(filme);
@@ -62,7 +64,7 @@ public class FilmeService {
 
     private Filme buscarFilmePorId(Long id) {
         return filmeRepository.findById(id) 
-        .orElseThrow(() -> new IllegalArgumentException("Nada encontrado." + id));
+        .orElseThrow(() -> new ResourceNotFoundException("Nada encontrado."));
     }
 
     public FilmeResponseDTO alterarPorId(FilmeUpdateDTO dto, Long id) {

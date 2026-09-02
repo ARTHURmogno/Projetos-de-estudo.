@@ -13,6 +13,7 @@ import com.UMBRELLA.inforHub_API.Animes.mapper.AnimeMapper;
 import com.UMBRELLA.inforHub_API.Animes.model.Anime;
 import com.UMBRELLA.inforHub_API.Animes.repository.AnimeRepository;
 import com.UMBRELLA.inforHub_API.Animes.specification.AnimeSpecification;
+import com.UMBRELLA.inforHub_API.Exception.ResourceAlreadyExistsException;
 import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
 
 @Service
@@ -31,7 +32,7 @@ public class AnimeService {
        Anime anime = animeMapper.toEntity(dto);
 
         if (animeRepository.existsByNome(anime.getNome())) {
-            throw new IllegalArgumentException("Anime já cadastrado.");
+            throw new ResourceAlreadyExistsException("Anime já cadastrado.");
         }
 
         Anime novoAnime = animeRepository.save(anime);

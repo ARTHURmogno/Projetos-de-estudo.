@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.UMBRELLA.inforHub_API.Exception.ResourceAlreadyExistsException;
+import com.UMBRELLA.inforHub_API.Exception.ResourceNotFoundException;
 import com.UMBRELLA.inforHub_API.Series.dto.SerieFiltroDTO;
 import com.UMBRELLA.inforHub_API.Series.dto.SerieRequestDTO;
 import com.UMBRELLA.inforHub_API.Series.dto.SerieResponseDTO;
@@ -30,7 +32,7 @@ public class SerieService {
         Serie serie = serieMapper.toEntity(dto);
 
             if (serieRepository.existsByNome(serie.getNome())) {
-                throw new IllegalArgumentException("Serie já cadastrada.");
+                throw new ResourceAlreadyExistsException("Serie já cadastrada.");
             }
 
             Serie novaSerie = serieRepository.save(serie);
@@ -60,7 +62,7 @@ public class SerieService {
 
     private Serie buscarSeriePorId(Long id) {
         return serieRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Id não encontrado: " + id));
+        .orElseThrow(() -> new ResourceNotFoundException("Id não encontrado."));
     }
 
      public SerieResponseDTO alterarSerie(SerieUpdateDTO dto, Long id) {
