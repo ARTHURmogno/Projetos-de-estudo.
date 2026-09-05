@@ -25,28 +25,28 @@ public class Anime{
     private Long id;
 
     @NotBlank(message = "Nome não pode ser nulo nem vazio.")
-    @Size(min = 2, max = 500)
+    @Size(message = "nome deve está entre 2 é 500 caracteres", min = 2, max = 500)
     private String nome;
 
     @NotBlank(message = "Gênero não pode ser nulo nem vazio.")
     private String genero;
 
     @NotBlank(message = "Sinopse não pode ser nulo nem vazio.")
-    @Size(min = 20, max = 500)
+    @Size(message = "sinopse deve está entre 20 é 500 caracteres", min = 20, max = 500)
     private String sinopse;
 
     @NotBlank(message = "Onde Assistir não pode ser nulo nem vazio.")
     private String ondeAssistir;
 
-    @Positive
+    @Positive(message = "ano de lancamento deve está entre 1900 é 2100")
     @Min(1900)
     @Max(2100)
     private Integer anoDeLancamento;
 
-    @Positive
+    @Positive(message = "episódios não pode ser negativo")
     private int episodios;
 
-    @Positive
+    @Positive(message = "episódios não pode ser negativo")
     private int temporada;
 
     public Anime() {
