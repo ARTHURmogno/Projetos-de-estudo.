@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.UMBRELLA.inforHub_API.dto.ErroResponse;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 
@@ -38,13 +35,13 @@ public class GlobalExceptionHandler {
         mensagens.add(mensagem);
 
         errosPorCampo.put(campo, mensagens);
-    }
+        }
 
     ErroResponse erroResponse = new ErroResponse(400, errosPorCampo);
 
     return ResponseEntity.badRequest().body(erroResponse);
 
-}
+    }
       // retorno http 404 not found com a mensagem personalizada
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErroResponse> tratarRecursoNaoEncontrado(ResourceNotFoundException ex) {
@@ -59,4 +56,6 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
     }
+
+   
 }

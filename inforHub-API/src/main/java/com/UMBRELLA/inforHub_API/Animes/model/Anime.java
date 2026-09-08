@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -41,19 +42,22 @@ public class Anime{
     @Positive(message = "ano de lancamento deve está entre 1900 é 2100")
     @Min(1900)
     @Max(2100)
+    @NotNull(message = "Ano de Lancamento não pode ser nulo.")
     private Integer anoDeLancamento;
 
     @Positive(message = "episódios não pode ser negativo")
-    private int episodios;
+    @NotNull(message = "episódio não pode ser nulo.")
+    private Integer episodios;
 
-    @Positive(message = "episódios não pode ser negativo")
-    private int temporada;
+    @Positive(message = "temporada não pode ser negativo")
+    @NotNull(message = "temporada não pode ser nulo.")
+    private Integer temporada;
 
     public Anime() {
 
     }
 
-    public Anime(Long id, String nome, String genero, String sinopse, String ondeAssistir, Integer anoDeLancamento, int episodios, int temporada) {
+    public Anime(Long id, String nome, String genero, String sinopse, String ondeAssistir, Integer anoDeLancamento, Integer episodios, Integer temporada) {
         this.id = id;
         this.nome = nome;
         this.genero = genero;
