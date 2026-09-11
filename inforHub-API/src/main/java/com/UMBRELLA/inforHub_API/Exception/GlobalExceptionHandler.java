@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.UMBRELLA.inforHub_API.dto.ErroResponse;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 
 import java.util.ArrayList;
@@ -55,6 +56,14 @@ public class GlobalExceptionHandler {
         ErroResponse erro = new ErroResponse(409, ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErroResponse> tratarRecursoNãoLegivel(HttpMessageNotReadableException ex) {
+
+        ErroResponse erroResponse = new ErroResponse(400, "JSON enviado é inválido.");
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroResponse);
     }
 
    
