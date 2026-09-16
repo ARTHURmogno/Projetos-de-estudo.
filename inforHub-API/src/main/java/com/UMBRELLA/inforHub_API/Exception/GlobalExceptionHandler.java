@@ -43,6 +43,7 @@ public class GlobalExceptionHandler {
     return ResponseEntity.badRequest().body(erroResponse);
 
     }
+
       // retorno http 404 not found com a mensagem personalizada
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErroResponse> tratarRecursoNaoEncontrado(ResourceNotFoundException ex) {
@@ -61,7 +62,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErroResponse> tratarRecursoNãoLegivel(HttpMessageNotReadableException ex) {
 
-        ErroResponse erroResponse = new ErroResponse(400, "JSON enviado é inválido.");
+        ErroResponse erroResponse = new ErroResponse(400, "informações do JSON enviado é inválido.");
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroResponse);
     }
