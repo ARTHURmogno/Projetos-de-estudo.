@@ -15,5 +15,6 @@ public class AnimeFiltroDTO {
     private String genero;
     private String ondeAssistir;
     private Integer anoDeLancamento;
+    private Integer anoMinimo;
     
 }

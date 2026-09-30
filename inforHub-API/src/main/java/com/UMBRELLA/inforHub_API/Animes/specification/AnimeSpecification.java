@@ -49,6 +49,13 @@ public class AnimeSpecification {
                 predicate = builder.and(predicate, anoDeLancamentoPredicate);
             }
 
+            if (filtro.getAnoMinimo() != null && filtro.getAnoMinimo() > 0) {
+
+                Predicate anoMinimoPredicate = builder.greaterThanOrEqualTo(root.get("anoDeLancamento"), filtro.getAnoMinimo());
+
+                predicate = builder.and(predicate, anoMinimoPredicate);
+            }
+
             return predicate;
         };
 
