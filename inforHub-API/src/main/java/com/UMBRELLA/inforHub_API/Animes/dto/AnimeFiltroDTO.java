@@ -1,5 +1,6 @@
 package com.UMBRELLA.inforHub_API.Animes.dto;
 
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,11 @@ public class AnimeFiltroDTO {
     private String genero;
     private String ondeAssistir;
     private Integer anoDeLancamento;
+
+    @Positive 
     private Integer anoMinimo;
+    
+    @Positive
+    private Integer anoMaximo;
     
 }
